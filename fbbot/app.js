@@ -9,19 +9,17 @@ exports.load = function(
 ) {
     const VALIDATION_TOKEN  = "_dj_spot_verify";
     const APP_SECRET        = "EAAF3he7lEWwBAFMeF4IE0Y5HfdRSyNDjmXvv9BgWw0Fpt7eXvL2oaICZBSG6WLCsU40yzcolYrnkqfZCrka31dvoQMIEALth2XwjucWLZCqHPTDkFJ4xCO9wLQ0x5R1ShPMRRHmuGmuhZCVlYVqZC8iIaZBj6jnEZC4uWRYAiE67gZDZD"
+    const PAGE_ACCESS_TOKEN = "EAAF3he7lEWwBAFMeF4IE0Y5HfdRSyNDjmXvv9BgWw0Fpt7eXvL2oaICZBSG6WLCsU40yzcolYrnkqfZCrka31dvoQMIEALth2XwjucWLZCqHPTDkFJ4xCO9wLQ0x5R1ShPMRRHmuGmuhZCVlYVqZC8iIaZBj6jnEZC4uWRYAiE67gZDZD"
 
     var tunnel = localtunnel(8080, {subdomain: "djspotbot"}, function(err, tunnel) {
         if (err) {
-
+            throw new error("Cannot create localtunnel");
         }
         else {
             console.log(tunnel.url);
         }
     });
-
-    tunnel.on('close', function() {
-        // tunnels are closed
-    });
+    tunnel.on('close', function() {});
 
     // VERIFY
     app.get('/fbbot/webhook', bodyParser.json({ verify: verifyRequestSignature }), function(req, res) {
@@ -36,6 +34,12 @@ exports.load = function(
         }
     });
 
+    var users = {};
+    var states = {
+        ACCEPT_COMMAND: 0,
+        ACCEPT_PARAM: 1,
+    };
+
     // ALL WEBHOOK ENDPOINTS
     app.post('/fbbot/webhook', bodyParser.json({ verify: verifyRequestSignature }), function (req, res) {
         var data = req.body;
@@ -47,8 +51,47 @@ exports.load = function(
 
                 pageEntry.messaging.forEach(function(messagingEvent) {
                     if (messagingEvent.message) {
-                        console.log("Message");
-                        console.log(messagingEvent.message);
+                        var message = messagingEvent.message.text.toLowerCase();
+                        var user = (users[messagingEvent.sender] = users[messagingEvent.sender] || {
+                            state: {
+                                type: states.ACCEPT_COMMAND,
+                                data: undefined,
+                            },
+                            id: messagingEvent.sender,
+                            messages: [],
+                        });
+
+                        user.messages.push(message);
+
+                        switch (user.state.type) {
+                            case states.ACCEPT_PARAM:
+                                if (user.state.data == "play") {
+                                    /**
+                                     * TODO: SEND TO SPOTIFY API
+                                     */
+                                    if (true)
+                                    sendMessage("Adding " + message.toUpperCase() + " to the playlist.", user.id);
+
+                                    user.state.type = states.ACCEPT_COMMAND;
+                                    user.state.data = undefined;
+                                }
+
+                                break;
+                            case states.ACCEPT_COMMAND:
+                                if (/play/.test(message)) {
+                                    user.state.type = states.ACCEPT_PARAM;
+                                    user.state.data = "play";
+                                    sendMessage("What song do you want to play?", user.id);
+                                }
+                                else {
+                                    sendMessage("Not sure what you mean by that. To add a song to the playlist type 'play'.", user.id);
+                                }
+
+                                break;
+                            default:
+                                throw new error("Invalid state");
+                                break;
+                        }
                     }
                 });
             });
@@ -56,6 +99,36 @@ exports.load = function(
 
         res.sendStatus(200);
     });
+
+    function sendMessage(message, sender) {
+        request({
+            uri: 'https://graph.facebook.com/v2.6/me/messages',
+            qs: { access_token: PAGE_ACCESS_TOKEN },
+            method: 'POST',
+            json: {
+                recipient: {
+                    id: sender
+                },
+                message: {
+                    text: message,
+                    metadata: "DEVELOPER_DEFINED_METADATA"
+                }
+            }
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var recipientId = body.recipient_id;
+                var messageId = body.message_id;
+
+                if (messageId) {
+                    console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
+                } else {
+                    console.log("Successfully called Send API for recipient %s", recipientId);
+                }
+            } else {
+                console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+            }
+        });
+    }
 
     function verifyRequestSignature(req, res, buf) {
         var signature = req.headers["x-hub-signature"];
@@ -78,5 +151,4 @@ exports.load = function(
             }
         }
     }
-
 };
