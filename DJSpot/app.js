@@ -115,8 +115,6 @@ exports.load = function(
 			      request.get(authOptions, function(error, response, body) {
 			        console.log("Here's what topSongs returned:");
 			        if (!error && response.statusCode === 200) {
-			          console.log(body);
-			          console.log("Top " + numSongs + " track IDs:");
 			          body.items.forEach(function(e) {
 			            console.log(e.id);
 			            top_50.push(e.id);
