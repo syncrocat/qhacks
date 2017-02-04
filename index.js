@@ -95,5 +95,6 @@ website.load(
     config,
 	require("querystring"),
 	require("cookie-parser"),
-    server
+    server,
+    spotify
 );

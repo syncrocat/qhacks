@@ -12,44 +12,38 @@ exports.load = function(
   var clientId =  "294422f175f2404ca3be4840769aea24";
   var clientSecret = config.clientSecret;
 
-	exports.userTopSongs = function(id, numSongs, accessToken, callback) {//function(request, response) {
-	  if (id == null) {
-      return { error: "missing id" };
-	  }
-	  if (numSongs == null || numSongs < 1 || numSongs > 50) {
-	    return { error: "invalid numSongs" };
-	  }
-	  if (accessToken == null)
-	    return { error: "missing access token"};
+	exports.userTopSongs = function(accessToken, callback) {//function(request, response) {
+    request.get(options, function(error, response, body) {
+      //get top 50 & username
+      var display_name = body.display_name;
+      var id = body.id;
+      //access_token
+      //refresh_token
+      var mac = "qwertyuio";
 
-	  var authOptions = {
-	    url: 'https://api.spotify.com/v1/users/' + id + '/top/tracks',
-	    headers: {
-	      'Authorization': accessToken
-	    },
-	    form: {
-	      limit: numSongs
-	    },
-	    json: true
-	  };
+      var top_50 = [];
+      var authOptions = {
+        url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
+        headers: {
+          'Authorization': 'Bearer ' + access_token
+        },
+        json: true
+      };
 
-	  request.get(authOptions, function(error, response, body) {
-	    console.log("Here's what topSongs returned:");
-	    if (!error && response.statusCode === 200) {
-	      console.log(body);
-	      console.log("Top " + numSongs + " track IDs:");
-        var result = [];
-	      body.items.forEach(function(e) {
-	        console.log(e.id);
-          result.push(e.id);
-	      });
-        callback(result);
-	    } else {
-	      console.log(response.statusCode);
-	      console.log(error);
-        callback(error);
-	    }
-	  });
+      request.get(authOptions, function(error, response, body) {
+        console.log("Here's what topSongs returned:");
+        if (!error && response.statusCode === 200) {
+          body.items.forEach(function(e) {
+            console.log(e.id);
+            top_50.push(e.id);
+          });
+          server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+        } else {
+          console.log(response.statusCode);
+          console.log(error);
+        }
+      });
+    });
 	};
 
 	exports.addTrack(id, playlist, tracks, callback) {
