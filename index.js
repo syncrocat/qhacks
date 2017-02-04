@@ -99,6 +99,6 @@ website.load(
     express,
     https,
     request,
-	querystring,
+	require("querystring"),
 	require("cookie-parser")
 );
