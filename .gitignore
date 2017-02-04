@@ -2,3 +2,5 @@ config.js
 .DS_Store
 IOT/build
 QHacks.pem
+BOT/ssh.sh
+BOT/*.pem
