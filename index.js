@@ -11,6 +11,10 @@ var app = express();
 
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(function(req, res, next) {
+  res.setHeader("Content-Type", "application/json")
+  next();
+});
 
 var credentials = {key: key, cert: cert};
 var httpServer = http.createServer(app);
@@ -46,7 +50,6 @@ app.post("/routers/:id",function(request, response){
 		console.log("bad router");
 		var obj = { error : "missing parameter"};
 
-	    response.setHeader({"Content-Type": "application/json"});
 	    response.send(JSON.stringify(obj));
 	    return;
 	}
@@ -62,7 +65,6 @@ app.post("/routers/:id",function(request, response){
     collection.insertOne(router)
     .then(function(result) {
         console.log("Saved");
-        response.setHeader({"Content-Type": "application/json"});
 	    response.send(JSON.stringify({success:true}));
     });
 });
@@ -76,7 +78,6 @@ app.post("/routers/:id/users",function(request, response){
 		console.log("bad list");
 		var obj = { error : "missing parameter"};
 
-	    response.setHeader({"Content-Type": "application/json"});
 	    response.send(JSON.stringify(obj));
 	    return;
 	}
@@ -104,7 +105,6 @@ app.post("/users/:id",function(request,response){
 		console.log("bad user");
 		var obj = { error : "missing parameter"};
 
-	    response.setHeader({"Content-Type": "application/json"});
 	    response.send(JSON.stringify(obj));
 	    return;
 	}
@@ -120,7 +120,6 @@ app.post("/users/:id",function(request,response){
     collection.insertOne(user)
     .then(function(result) {
         console.log("Saved");
-        response.setHeader({"Content-Type": "application/json"});
 	    response.send(JSON.stringify({success:true}));
     });
 });
@@ -131,7 +130,6 @@ app.get("/routers/:id/users",function(request,response){
 	if(id == null){
 		var obj = { error : "missing id"};
 
-	    response.setHeader({"Content-Type": "application/json"});
 	    response.send(JSON.stringify(obj));
 	    return;
 	}
@@ -145,7 +143,6 @@ app.get("/routers/:id/users",function(request,response){
 				users.push(result);
 			});
 		}
-        response.setHeader({"Content-Type": "application/json"});
 	    response.send(JSON.stringify(users));
     });
 });
