@@ -46,37 +46,37 @@ exports.load = function(
     });
 	};
 
-	exports.addTrack(id, playlist, tracks, callback) {
-	  // requests.params.tracks should be a comma-separated list of Spotify Track URIs
-	  if (id == null)
-	    return {error: "missing id"};
-	  if (playlist == null)
-	    return {error: "missing playlist id"};
-
-	  var authOptions = {
-	    url: 'https://api.spotify.com/v1/users/' + id + '/playlists/' + playlist + '/tracks',
-	    headers: {
-	      'Authorization': accessToken,
-	      'Content-Type': 'application/json'
-	    },
-	    form: {
-	      uris: tracks
-	    },
-	    json: true
-	  };
-
-	  request.get(authOptions, function(error, response, body) {
-	    console.log("Here's what addTrack returned:");
-	    if (!error && response.statusCode === 201) {
-	      console.log("success");
-        callback("success");
-	    } else {
-	      console.log(response.statusCode);
-	      console.log(error);
-        callback(error);
-	    }
-	  });
-	});
+	// exports.addTrack(id, playlist, tracks, callback) {
+	//   // requests.params.tracks should be a comma-separated list of Spotify Track URIs
+	//   if (id == null)
+	//     return {error: "missing id"};
+	//   if (playlist == null)
+	//     return {error: "missing playlist id"};
+  //
+	//   var authOptions = {
+	//     url: 'https://api.spotify.com/v1/users/' + id + '/playlists/' + playlist + '/tracks',
+	//     headers: {
+	//       'Authorization': accessToken,
+	//       'Content-Type': 'application/json'
+	//     },
+	//     form: {
+	//       uris: tracks
+	//     },
+	//     json: true
+	//   };
+  //
+	//   request.get(authOptions, function(error, response, body) {
+	//     console.log("Here's what addTrack returned:");
+	//     if (!error && response.statusCode === 201) {
+	//       console.log("success");
+  //       callback("success");
+	//     } else {
+	//       console.log(response.statusCode);
+	//       console.log(error);
+  //       callback(error);
+	//     }
+	//   });
+	// });
 
 	// Create a playlist
 	// /v1/users/{user_id}/playlists
