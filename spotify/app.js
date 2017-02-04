@@ -57,10 +57,10 @@ exports.load = function(
 	  // requests.params.tracks should be a comma-separated list of Spotify Track URIs
 	  var id = requests.params.id;
 	  if (id == null)
-	    return response.send(JSON.stringify({error: "missing id"});
+	    return response.send(JSON.stringify({error: "missing id"}));
 	  var playlist = requests.params.playlistId;
 	  if (playlist == null)
-	    return response.send(JSON.stringify({error: "missing playlist id"});
+	    return response.send(JSON.stringify({error: "missing playlist id"}));
 	  var tracks = requests.params.tracks;
 	  var authOptions = {
 	    url: 'https://api.spotify.com/v1/users/' + id + '/playlists/' + playlist + '/tracks',
