@@ -13,14 +13,6 @@ exports.load = function(
   var clientSecret = config.clientSecret;
 
 	exports.userTopSongs = function(accessToken, callback) {//function(request, response) {
-    request.get(options, function(error, response, body) {
-      //get top 50 & username
-      var display_name = body.display_name;
-      var id = body.id;
-      //access_token
-      //refresh_token
-      var mac = "qwertyuio";
-
       var top_50 = [];
       var authOptions = {
         url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
