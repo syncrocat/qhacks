@@ -88,23 +88,18 @@ exports.load = function(
 
 	        var access_token = body.access_token,
 	            refresh_token = body.refresh_token;
-          console.log("Access Token");
-          console.log(access_token);
-          console.log("User ID");
-          console.log(id);
           partyToken = body.refresh_token;
-	        var options = {
-	          url: 'https://api.spotify.com/v1/me',
-	          headers: { 'Authorization': 'Bearer ' + access_token },
-	          json: true
-	        };
-
-          spotify.userTopSongs(access_token, function(top_50) {
-            server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+          spotify.getMyId(access_token, function(id) {
+            spotify.userTopSongs(access_token, function(top_50) {
+              server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+              console.log("Access Token");
+              console.log(access_token);
+              console.log("User ID");
+              console.log(id);
+            });
+  	        // we can also pass the token to the browser to make requests from there
+  	        res.redirect('/goodJob');
           });
-
-	        // we can also pass the token to the browser to make requests from there
-	        res.redirect('/goodJob');
 	      } else {
 	        res.redirect('/badJob');
 	      }
