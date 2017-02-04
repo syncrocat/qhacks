@@ -9,7 +9,7 @@ exports.load = function(
 ) {
     var client_id = 'e58a6ed53ca84d5abf570722f74fd548'; // Your client id
 	var client_secret = 'e268f86ec2be453eb815b9ad053c7fe7'; // Your secret
-	var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+	var redirect_uri = 'https://djspotbot.localtunnel.me:8888/callback'; // Your redirect uri
 
 	/**
 	 * Generates a random string containing numbers and letters
@@ -28,9 +28,7 @@ exports.load = function(
 
 	var stateKey = 'spotify_auth_state';
 
-	app.get('/home', function(req, res) {
-		res.send('public');
-	});
+	app.use('/home', express.static(__dirname +'/public/'));
 
 	//app.get(express.static('public')).use(cookieParser());
 
