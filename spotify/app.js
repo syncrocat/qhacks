@@ -8,24 +8,18 @@ exports.load = function(
     SpotifyWebApi,
     request
 ) {
-	var clientId =  "294422f175f2404ca3be4840769aea24";
-	var clientSecret = config.clientSecret;
-	app.get("/users/:id/topSongs", function(request, response) {
-	  var id = request.params.id;
+  var clientId =  "294422f175f2404ca3be4840769aea24";
+  var clientSecret = config.clientSecret;
+
+	exports.userTopSongs = function(id, numSongs, accessToken, callback) {//function(request, response) {
 	  if (id == null) {
-	    var obj = { error: "missing id"};
-	    response.send(JSON.stringify(obj));
-	    return;
+      return { error: "missing id" };
 	  }
-	  var numSongs = request.params.numSongs;
 	  if (numSongs == null || numSongs < 1 || numSongs > 50) {
-	    var obj = { error: "invalid numSongs" };
-	    response.send(JSON.stringify(obj));
-	    return;
+	    return { error: "invalid numSongs" };
 	  }
-	  var accessToken = request.params.accessToken;
 	  if (accessToken == null)
-	    return response.send(JSON.stringify({error: "missing access token"}));
+	    return { error: "missing access token"};
 
 	  var authOptions = {
 	    url: 'https://api.spotify.com/v1/users/' + id + '/top/tracks',
@@ -43,25 +37,27 @@ exports.load = function(
 	    if (!error && response.statusCode === 200) {
 	      console.log(body);
 	      console.log("Top " + numSongs + " track IDs:");
+        var result = [];
 	      body.items.forEach(function(e) {
 	        console.log(e.id);
+          result.push(e.id);
 	      });
+        callback(result);
 	    } else {
 	      console.log(response.statusCode);
 	      console.log(error);
+        callback(error);
 	    }
 	  });
-	});
+	};
 
-	app.get("/users/:id/addTrack", function(request, response) {
+	exports.addTrack(id, playlist, tracks, callback) {
 	  // requests.params.tracks should be a comma-separated list of Spotify Track URIs
-	  var id = requests.params.id;
 	  if (id == null)
-	    return response.send(JSON.stringify({error: "missing id"}));
-	  var playlist = requests.params.playlistId;
+	    return {error: "missing id"};
 	  if (playlist == null)
-	    return response.send(JSON.stringify({error: "missing playlist id"}));
-	  var tracks = requests.params.tracks;
+	    return {error: "missing playlist id"};
+
 	  var authOptions = {
 	    url: 'https://api.spotify.com/v1/users/' + id + '/playlists/' + playlist + '/tracks',
 	    headers: {
@@ -78,9 +74,11 @@ exports.load = function(
 	    console.log("Here's what addTrack returned:");
 	    if (!error && response.statusCode === 201) {
 	      console.log("success");
+        callback("success");
 	    } else {
 	      console.log(response.statusCode);
 	      console.log(error);
+        callback(error);
 	    }
 	  });
 	});
