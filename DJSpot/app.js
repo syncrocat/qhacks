@@ -42,7 +42,7 @@ exports.load = function(
 	  res.cookie(stateKey, state);
 
 	  // your application requests authorization
-	  var scope = 'user-read-private user-read-email';
+	  var scope = 'user-read-private user-read-email user-top-read';
 	  res.redirect('https://accounts.spotify.com/authorize?' +
 	    querystring.stringify({
 	      response_type: 'code',
@@ -105,12 +105,9 @@ exports.load = function(
 
           	var top_50 = [];
           	var authOptions = {
-			        url: 'https://api.spotify.com/v1/users/' + id + '/top/tracks',
+			        url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
 			        headers: {
 			          'Authorization': access_token
-			        },
-			        form: {
-			          limit: 50
 			        },
 			        json: true
 			      };
