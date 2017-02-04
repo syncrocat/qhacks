@@ -10,7 +10,7 @@ exports.load = function(
 ) {
     var client_id = '294422f175f2404ca3be4840769aea24'; // Your client id
 	var client_secret = config.clientSecret;
-	var redirect_uri = 'https://djspotbot.localtunnel.me:8888/callback'; // Your redirect uri
+	var redirect_uri = 'https://djspotbot.localtunnel.me/callback'; // Your redirect uri
 
 	/**
 	 * Generates a random string containing numbers and letters
@@ -59,9 +59,9 @@ exports.load = function(
 
 	  var code = req.query.code || null;
 	  var state = req.query.state || null;
-	  var storedState = req.cookies ? req.cookies[stateKey] : null;
+	  //var storedState = req.cookies ? req.cookies[stateKey] : null;
 
-	  if (state === null || state !== storedState) {
+	  if (state === null /*|| state !== storedState*/) {
 	    res.redirect('/#' +
 	      querystring.stringify({
 	        error: 'state_mismatch'
