@@ -6,9 +6,6 @@ exports.load = function(
     mongodb,
     request
 ) {
-	app.get('/', function(req,res) {
-	    res.send('hello');
-	});
     //adds or updates a router object
 	app.post("/routers/:id",function(request, response){
 	    var id = request.params.id;
