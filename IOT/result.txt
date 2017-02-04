@@ -1,3 +1,0 @@
-? (10.218.0.1) at 0:1b:21:36:61:13 on en1 ifscope [ethernet]
-? (224.0.0.251) at 1:0:5e:0:0:fb on en1 ifscope permanent [ethernet]
-? (239.255.255.250) at 1:0:5e:7f:ff:fa on en1 ifscope permanent [ethernet]
