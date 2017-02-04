@@ -50,6 +50,7 @@ var fbbot   = require('fbbot/app.js');
 
 // Loads fbbot
 fbbot.load(
+    app,
     bodyParser,
     crypto,
     express,

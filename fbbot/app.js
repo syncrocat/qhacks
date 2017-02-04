@@ -1,4 +1,5 @@
 exports.load = function(
+    app,
     bodyParser,
     crypto,
     express,
