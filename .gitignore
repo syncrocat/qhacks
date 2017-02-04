@@ -4,3 +4,5 @@ IOT/build
 QHacks.pem
 BOT/ssh.sh
 BOT/*.pem
+cert.pem
+key.pem

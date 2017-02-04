@@ -1,9 +1,20 @@
+var key = fs.readFileSync(path.resolve(__dirname, 'key.pem'));
+var cert = fs.readFileSync(path.resolve(__dirname, 'cert.pem'));
+
+
 var express = require('express');
 var app = express();
 
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(express.json());       // to support JSON-encoded bodies
+
+
+https.createServer({
+	key: key,
+	cert: cert
+}, app).listen(443);
+
 
 var SpotifyWebApi = require('spotify-web-api-node');
 var config = require('./config');
@@ -105,3 +116,4 @@ app.post("/users/:id",function(request,response){
 	    response.write(JSON.stringify({success:true}));
     });
 }
+
