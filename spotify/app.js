@@ -6,7 +6,8 @@ exports.load = function(
     mongodb,
     config,
     SpotifyWebApi,
-    request
+    request,
+    server
 ) {
 	var clientId =  "294422f175f2404ca3be4840769aea24";
 	var clientSecret = config.clientSecret;

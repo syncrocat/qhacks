@@ -6,7 +6,8 @@ exports.load = function(
     request,
     config,
     querystring,
-    cookieParser
+    cookieParser,
+    server
 ) {
     var client_id = '294422f175f2404ca3be4840769aea24'; // Your client id
 	var client_secret = config.clientSecret;
@@ -98,17 +99,11 @@ exports.load = function(
 	          console.log(body);
 	        });
 
+	        server.addUser(access_token, refresh_token, "APPLESAUSE");
 	        // we can also pass the token to the browser to make requests from there
-	        res.redirect('/#' +
-	          querystring.stringify({
-	            access_token: access_token,
-	            refresh_token: refresh_token
-	          }));
+	        res.redirect('/goodJob');
 	      } else {
-	        res.redirect('/#' +
-	          querystring.stringify({
-	            error: 'invalid_token'
-	          }));
+	        res.redirect('/badJob');
 	      }
 	    });
 	  }

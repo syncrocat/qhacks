@@ -76,7 +76,8 @@ spotify.load(
     mongodb,
     config,
     SpotifyWebApi,
-    request
+    request,
+    server
 );
 
 /*
@@ -93,5 +94,6 @@ website.load(
     request,
     config,
 	require("querystring"),
-	require("cookie-parser")
+	require("cookie-parser"),
+    server
 );

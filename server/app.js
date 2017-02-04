@@ -109,7 +109,7 @@ exports.load = function(
 		};
 
 		var collection = database.collection('users');
-		collection.remove({'spotify_id':id});
+		//collection.remove({'spotify_id':id});
 	    collection.insertOne(user);
 	    return user;
 	}
