@@ -17,7 +17,7 @@ exports.load = function(
     var authOptions = {
       url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
       headers: {
-        'Authorization': 'Bearer ' + access_token
+        'Authorization': 'Bearer ' + accessToken
       },
       json: true
     };
@@ -29,7 +29,7 @@ exports.load = function(
           console.log(e.id);
           top_50.push(e.id);
         });
-        server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+        return top_50;
       } else {
         console.log(response.statusCode);
         console.log(error);
