@@ -90,12 +90,12 @@ exports.load = function(
 	            refresh_token = body.refresh_token;
           partyToken = body.refresh_token;
           spotify.getMyId(access_token, function(id) {
+            console.log("Access Token");
+            console.log(access_token);
+            console.log("User ID");
+            console.log(id);
             spotify.userTopSongs(access_token, function(top_50) {
               server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
-              console.log("Access Token");
-              console.log(access_token);
-              console.log("User ID");
-              console.log(id);
             });
   	        // we can also pass the token to the browser to make requests from there
   	        res.redirect('/goodJob');

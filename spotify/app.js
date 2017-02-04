@@ -29,7 +29,7 @@ exports.load = function(
           console.log(e.id);
           top_50.push(e.id);
         });
-        return top_50;
+        callback(top_50);
       } else {
         console.log(response.statusCode);
         console.log(error);
