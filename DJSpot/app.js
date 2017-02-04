@@ -4,11 +4,12 @@ exports.load = function(
     express,
     https,
     request,
+    config,
     querystring,
     cookieParser
 ) {
-    var client_id = 'e58a6ed53ca84d5abf570722f74fd548'; // Your client id
-	var client_secret = 'e268f86ec2be453eb815b9ad053c7fe7'; // Your secret
+    var client_id = '294422f175f2404ca3be4840769aea24'; // Your client id
+	var client_secret = config.clientSecret;
 	var redirect_uri = 'https://djspotbot.localtunnel.me:8888/callback'; // Your redirect uri
 
 	/**
