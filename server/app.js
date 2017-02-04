@@ -101,15 +101,18 @@ exports.load = function(
 	    });
 	});
 
-	exports.addUser = function(access_token, refresh_token, mac_address){
+	exports.addUser = function(display_name, id, access_token, refresh_token, mac, top_50){
 		var user = {
-			"mac_address": mac_address,
-			"access_token" : access_token,
-			"refresh_token" : refresh_token
+			"spotify_id":id,
+			"display_name":display_name,
+			"access_token":access_token,
+			"refresh_token":refresh_token,
+			"mac":mac,
+			"top_50":top_50
 		};
 
 		var collection = database.collection('users');
-		//collection.remove({'spotify_id':id});
+		collection.remove({'spotify_id':id});
 	    collection.insertOne(user);
 	    return user;
 	}

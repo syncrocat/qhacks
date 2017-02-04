@@ -96,10 +96,41 @@ exports.load = function(
 
 	        // use the access token to access the Spotify Web API
 	        request.get(options, function(error, response, body) {
-	          console.log(body);
-	        });
+          	//get top 50 & username
+          	var display_name = body.display_name;
+          	var id = body.id;
+          	//access_token
+          	//refresh_token
+          	var mac = "qwertyuio";
 
-	        server.addUser(access_token, refresh_token, "APPLESAUSE");
+          	var top_50 = [];
+          	var authOptions = {
+			        url: 'https://api.spotify.com/v1/users/' + id + '/top/tracks',
+			        headers: {
+			          'Authorization': access_token
+			        },
+			        form: {
+			          limit: 50
+			        },
+			        json: true
+			      };
+
+			      request.get(authOptions, function(error, response, body) {
+			        console.log("Here's what topSongs returned:");
+			        if (!error && response.statusCode === 200) {
+			          console.log(body);
+			          console.log("Top " + numSongs + " track IDs:");
+			          body.items.forEach(function(e) {
+			            console.log(e.id);
+			            top_50.push(e.id);
+			          });
+                server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+			        } else {
+			          console.log(response.statusCode);
+			          console.log(error);
+			        }
+			      });
+	        });
 	        // we can also pass the token to the browser to make requests from there
 	        res.redirect('/goodJob');
 	      } else {
