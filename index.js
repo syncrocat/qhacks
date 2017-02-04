@@ -1,3 +1,4 @@
+var fs = Npm.require('fs');
 var key = fs.readFileSync(path.resolve(__dirname, 'key.pem'));
 var cert = fs.readFileSync(path.resolve(__dirname, 'cert.pem'));
 
