@@ -51,6 +51,8 @@ exports.load = function(
 
                 pageEntry.messaging.forEach(function(messagingEvent) {
                     if (messagingEvent.message) {
+                        console.log(messagingEvent);
+
                         var message = messagingEvent.message.text.toLowerCase();
                         var user = (users[messagingEvent.sender] = users[messagingEvent.sender] || {
                             state: {
