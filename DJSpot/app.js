@@ -9,7 +9,7 @@ exports.load = function(
     cookieParser,
     server
 ) {
-  var client_id = '294422f175f2404ca3be4840769aea24'; // Your client id
+    var client_id = '294422f175f2404ca3be4840769aea24'; // Your client id
 	var client_secret = config.clientSecret;
 	var redirect_uri = 'https://djspotbot.localtunnel.me/callback'; // Your redirect uri
 
@@ -107,8 +107,7 @@ exports.load = function(
           	var authOptions = {
 			        url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
 			        headers: {
-                'Accept': 'application/json',
-			          'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+			          'Authorization': 'Bearer ' + access_token
 			        },
 			        json: true
 			      };
