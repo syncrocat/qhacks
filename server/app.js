@@ -1,10 +1,9 @@
 exports.load = function(
     app,
     bodyParser,
-    crypto,
     express,
     https,
-    request
+    mongodb
 ) {
 	app.get('/', function(req,res) {
 	    res.send('hello');
