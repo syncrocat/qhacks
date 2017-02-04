@@ -25,7 +25,7 @@ exports.load = function(
 	  }
 	  var accessToken = request.params.accessToken;
 	  if (accessToken == null)
-	    return response.send(JSON.stringify({error: "missing access token"});
+	    return response.send(JSON.stringify({error: "missing access token"}));
 
 	  var authOptions = {
 	    url: 'https://api.spotify.com/v1/users/' + id + '/top/tracks',
