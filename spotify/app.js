@@ -5,7 +5,8 @@ exports.load = function(
     https,
     mongodb,
     config,
-    SpotifyWebApi
+    SpotifyWebApi,
+    request
 ) {
 
 };
