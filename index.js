@@ -86,3 +86,19 @@ spotify.load(
     SpotifyWebApi,
     request
 );
+
+/*
+ * Website
+*/
+
+// Loads REST api
+var website = require('./DJSpot/app.js');
+website.load(
+    app,
+    bodyParser,
+    express,
+    https,
+    request,
+	querystring,
+	cookie-parser
+);
