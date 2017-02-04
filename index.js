@@ -41,6 +41,22 @@ client.connect('mongodb://localhost:27017/qhacks', function (err, db) {
     }
 });
 
+/**
+ * Facebook BOT
+ */
+var crypto  = require('crypto');
+var request = require('request');
+var fbbot   = require('fbbot/app.js');
+
+// Loads fbbot
+fbbot.load(
+    bodyParser,
+    crypto,
+    express,
+    https,
+    request
+);
+
 //adds or updates a router object
 app.post("/routers/:id",function(request, response){
     var id = request.params.id;
