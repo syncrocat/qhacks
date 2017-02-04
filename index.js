@@ -51,7 +51,8 @@ fbbot.load(
     crypto,
     express,
     https,
-    request
+    request,
+    require('localtunnel')
 );
 
 /**

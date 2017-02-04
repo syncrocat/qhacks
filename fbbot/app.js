@@ -4,10 +4,24 @@ exports.load = function(
     crypto,
     express,
     https,
-    request
+    request,
+    localtunnel
 ) {
     const VALIDATION_TOKEN  = "_dj_spot_verify";
-    const APP_SECRET        = "TODO"
+    const APP_SECRET        = "EAAF3he7lEWwBAFMeF4IE0Y5HfdRSyNDjmXvv9BgWw0Fpt7eXvL2oaICZBSG6WLCsU40yzcolYrnkqfZCrka31dvoQMIEALth2XwjucWLZCqHPTDkFJ4xCO9wLQ0x5R1ShPMRRHmuGmuhZCVlYVqZC8iIaZBj6jnEZC4uWRYAiE67gZDZD"
+
+    var tunnel = localtunnel(8080, {subdomain: "djspotbot"}, function(err, tunnel) {
+        if (err) {
+
+        }
+        else {
+            console.log(tunnel.url);
+        }
+    });
+
+    tunnel.on('close', function() {
+        // tunnels are closed
+    });
 
     // VERIFY
     app.get('/fbbot/webhook', bodyParser.json({ verify: verifyRequestSignature }), function(req, res) {
