@@ -1,3 +1,5 @@
 config.js
 .DS_Store
 IOT/build
+BOT/ssh.sh
+BOT/*.pem
