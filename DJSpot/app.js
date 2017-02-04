@@ -5,7 +5,7 @@ exports.load = function(
     https,
     request,
     querystring,
-    cookie-parser
+    cookieParser
 ) {
     var client_id = 'e58a6ed53ca84d5abf570722f74fd548'; // Your client id
 	var client_secret = 'e268f86ec2be453eb815b9ad053c7fe7'; // Your secret

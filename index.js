@@ -100,5 +100,5 @@ website.load(
     https,
     request,
 	querystring,
-	cookie-parser
+	require("cookie-parser")
 );
