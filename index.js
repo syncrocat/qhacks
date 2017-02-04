@@ -42,7 +42,7 @@ client.connect('mongodb://localhost:27017/qhacks', function (err, db) {
  * Facebook BOT
  */
 var crypto  = require('crypto');
-var fbbot   = require('fbbot/app.js');
+var fbbot   = require('./fbbot/app.js');
 
 // Loads fbbot
 fbbot.load(
@@ -58,7 +58,7 @@ fbbot.load(
  * Server
  */
 // Loads REST api
-var server = require('server/app.js');
+var server = require('./server/app.js');
 server.load(
     app,
     bodyParser,
@@ -75,7 +75,7 @@ server.load(
 var SpotifyWebApi = require('spotify-web-api-node');
 var config = require('./config');
 
-var spotify = require('spotify/app.js');
+var spotify = require('./spotify/app.js');
 spotify.load(
     app,
     bodyParser,
