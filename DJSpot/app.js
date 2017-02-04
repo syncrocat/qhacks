@@ -4,12 +4,14 @@ exports.load = function(
     express,
     https,
     request,
+    config,
     querystring,
-    cookieParser
+    cookieParser,
+    server
 ) {
-    var client_id = 'e58a6ed53ca84d5abf570722f74fd548'; // Your client id
-	var client_secret = 'e268f86ec2be453eb815b9ad053c7fe7'; // Your secret
-	var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+    var client_id = '294422f175f2404ca3be4840769aea24'; // Your client id
+	var client_secret = config.clientSecret;
+	var redirect_uri = 'https://djspotbot.localtunnel.me/callback'; // Your redirect uri
 
 	/**
 	 * Generates a random string containing numbers and letters
@@ -28,8 +30,9 @@ exports.load = function(
 
 	var stateKey = 'spotify_auth_state';
 
-	app.use(express.static(__dirname + '/public'))
-	   .use(cookieParser());
+	app.use('/home', express.static(__dirname +'/public/'));
+
+	//app.get(express.static('public')).use(cookieParser());
 
 	app.get('/login', function(req, res) {
 
@@ -39,7 +42,7 @@ exports.load = function(
 	  res.cookie(stateKey, state);
 
 	  // your application requests authorization
-	  var scope = 'user-read-private user-read-email';
+	  var scope = 'user-read-private user-read-email user-top-read';
 	  res.redirect('https://accounts.spotify.com/authorize?' +
 	    querystring.stringify({
 	      response_type: 'code',
@@ -57,9 +60,9 @@ exports.load = function(
 
 	  var code = req.query.code || null;
 	  var state = req.query.state || null;
-	  var storedState = req.cookies ? req.cookies[stateKey] : null;
+	  //var storedState = req.cookies ? req.cookies[stateKey] : null;
 
-	  if (state === null || state !== storedState) {
+	  if (state === null /*|| state !== storedState*/) {
 	    res.redirect('/#' +
 	      querystring.stringify({
 	        error: 'state_mismatch'
@@ -93,20 +96,40 @@ exports.load = function(
 
 	        // use the access token to access the Spotify Web API
 	        request.get(options, function(error, response, body) {
-	          console.log(body);
-	        });
+          	//get top 50 & username
+          	var display_name = body.display_name;
+          	var id = body.id;
+          	//access_token
+          	//refresh_token
+          	var mac = "qwertyuio";
 
+          	var top_50 = [];
+          	var authOptions = {
+			        url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
+			        headers: {
+			          'Authorization': 'Bearer ' + access_token
+			        },
+			        json: true
+			      };
+
+			      request.get(authOptions, function(error, response, body) {
+			        console.log("Here's what topSongs returned:");
+			        if (!error && response.statusCode === 200) {
+			          body.items.forEach(function(e) {
+			            console.log(e.id);
+			            top_50.push(e.id);
+			          });
+                server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+			        } else {
+			          console.log(response.statusCode);
+			          console.log(error);
+			        }
+			      });
+	        });
 	        // we can also pass the token to the browser to make requests from there
-	        res.redirect('/#' +
-	          querystring.stringify({
-	            access_token: access_token,
-	            refresh_token: refresh_token
-	          }));
+	        res.redirect('/goodJob');
 	      } else {
-	        res.redirect('/#' +
-	          querystring.stringify({
-	            error: 'invalid_token'
-	          }));
+	        res.redirect('/badJob');
 	      }
 	    });
 	  }
@@ -135,7 +158,4 @@ exports.load = function(
 	    }
 	  });
 	});
-
-	console.log('Listening on 8888');
-	app.listen(8888);
 };

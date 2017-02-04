@@ -6,9 +6,17 @@ exports.load = function(
     mongodb,
     request
 ) {
-	app.get('/', function(req,res) {
-	    res.send('hello');
+	var client = mongodb.MongoClient;
+	var database;
+
+	client.connect('mongodb://localhost:27017/qhacks', function (err, db) {
+	    if (err) {
+	        console.log('Unable to connect to the mongoDB server. Error:', err);
+	    } else {
+	        database = db;
+	    }
 	});
+
     //adds or updates a router object
 	app.post("/routers/:id",function(request, response){
 	    var id = request.params.id;
@@ -93,11 +101,14 @@ exports.load = function(
 	    });
 	});
 
-	exports.addUser = function(access_token, refresh_token, mac_address){
+	exports.addUser = function(display_name, id, access_token, refresh_token, mac, top_50){
 		var user = {
-			"mac_address": mac_address,
-			"access_token" : access_token,
-			"refresh_token" : refresh_token
+			"spotify_id":id,
+			"display_name":display_name,
+			"access_token":access_token,
+			"refresh_token":refresh_token,
+			"mac":mac,
+			"top_50":top_50
 		};
 
 		var collection = database.collection('users');

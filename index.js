@@ -13,7 +13,7 @@ var app = express();
 var bodyParser = require('body-parser').json();
 app.use( bodyParser );       // to support JSON-encoded bodies
 app.use(function(req, res, next) {
-  res.setHeader("Content-Type", "application/json")
+  //res.setHeader("Content-Type", "application/json")
   next();
 });
 
@@ -27,16 +27,7 @@ httpsServer.listen(8443);
 //mongoDB
 
 var mongodb = require('mongodb');
-var client = mongodb.MongoClient;
-var database;
 
-client.connect('mongodb://localhost:27017/qhacks', function (err, db) {
-    if (err) {
-        console.log('Unable to connect to the mongoDB server. Error:', err);
-    } else {
-        database = db;
-    }
-});
 
 /**
  * Facebook BOT
@@ -85,7 +76,8 @@ spotify.load(
     mongodb,
     config,
     SpotifyWebApi,
-    request
+    request,
+    server
 );
 
 /*
@@ -100,6 +92,8 @@ website.load(
     express,
     https,
     request,
+    config,
 	require("querystring"),
-	require("cookie-parser")
+	require("cookie-parser"),
+    server
 );
