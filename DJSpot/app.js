@@ -10,7 +10,7 @@ exports.load = function(
     server,
     spotify
 ) {
-    var client_id = '294422f175f2404ca3be4840769aea24'; // Your client id
+  var client_id = '294422f175f2404ca3be4840769aea24'; // Your client id
 	var client_secret = config.clientSecret;
 	var redirect_uri = 'https://djspotbot.localtunnel.me/callback'; // Your redirect uri
 
@@ -132,9 +132,11 @@ exports.load = function(
 	  });
 	});
 
-  app.get('/testing', function(req, res) {
-    console.log("hullo");
-    console.log(req);
-    console.log(res);
+  app.get('/add_song/:userid/:playlistid/:songs/', function(req, res) {
+    console.log("Here's what I got:");
+    console.log(req.params.userid);
+    console.log(req.params.playlistid);
+    console.log(req.params.songs);
+    res.send("Adding the song");
   });
 };
