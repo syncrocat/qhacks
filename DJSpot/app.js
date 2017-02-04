@@ -131,4 +131,10 @@ exports.load = function(
 	    }
 	  });
 	});
+
+  app.get('/testing', function(req, res) {
+    console.log("hullo");
+    console.log(req);
+    console.log(res);
+  });
 };
