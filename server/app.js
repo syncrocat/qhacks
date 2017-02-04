@@ -6,6 +6,17 @@ exports.load = function(
     mongodb,
     request
 ) {
+	var client = mongodb.MongoClient;
+	var database;
+
+	client.connect('mongodb://localhost:27017/qhacks', function (err, db) {
+	    if (err) {
+	        console.log('Unable to connect to the mongoDB server. Error:', err);
+	    } else {
+	        database = db;
+	    }
+	});
+
     //adds or updates a router object
 	app.post("/routers/:id",function(request, response){
 	    var id = request.params.id;

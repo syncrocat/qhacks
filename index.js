@@ -27,16 +27,7 @@ httpsServer.listen(8443);
 //mongoDB
 
 var mongodb = require('mongodb');
-var client = mongodb.MongoClient;
-var database;
 
-client.connect('mongodb://localhost:27017/qhacks', function (err, db) {
-    if (err) {
-        console.log('Unable to connect to the mongoDB server. Error:', err);
-    } else {
-        database = db;
-    }
-});
 
 /**
  * Facebook BOT
