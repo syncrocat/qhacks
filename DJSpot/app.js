@@ -95,10 +95,10 @@ exports.load = function(
 	          json: true
 	        };
 
-          spotify.getTop50(access_token, function(top_50) {
+          spotify.userTopSongs(access_token, function(top_50) {
             server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
           });
-	        
+
 	        // we can also pass the token to the browser to make requests from there
 	        res.redirect('/goodJob');
 	      } else {
