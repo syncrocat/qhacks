@@ -28,7 +28,11 @@ exports.load = function(
 
 	var stateKey = 'spotify_auth_state';
 
-	app.get(express.static('public')).use(cookieParser());
+	app.get('/home', function(req, res) {
+		res.send('public');
+	});
+
+	//app.get(express.static('public')).use(cookieParser());
 
 	app.get('/login', function(req, res) {
 
