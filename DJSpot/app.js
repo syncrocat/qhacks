@@ -13,6 +13,7 @@ exports.load = function(
   var client_id = '294422f175f2404ca3be4840769aea24'; // Your client id
 	var client_secret = config.clientSecret;
 	var redirect_uri = 'https://djspotbot.localtunnel.me/callback'; // Your redirect uri
+  var partyToken = '';
 
 	/**
 	 * Generates a random string containing numbers and letters
@@ -88,7 +89,7 @@ exports.load = function(
 
 	        var access_token = body.access_token,
 	            refresh_token = body.refresh_token;
-
+          partyToken = body.refresh_token;
 	        var options = {
 	          url: 'https://api.spotify.com/v1/me',
 	          headers: { 'Authorization': 'Bearer ' + access_token },
@@ -108,10 +109,10 @@ exports.load = function(
 	  }
 	});
 
-	app.get('/refresh_token', function(req, res) {
+	app.get('/refresh', function(req, res) {
 
 	  // requesting access token from refresh token
-	  var refresh_token = req.query.refresh_token;
+	  var refresh_token = partyToken;
 	  var authOptions = {
 	    url: 'https://accounts.spotify.com/api/token',
 	    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
@@ -133,6 +134,8 @@ exports.load = function(
 	});
 
   app.get('/add_song/:userid/:playlistid/:songs', function(req, res) {
+
+
     console.log("Here's what I got:");
     console.log(req.params.userid);
     console.log(req.params.playlistid);
