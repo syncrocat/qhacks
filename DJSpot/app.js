@@ -28,8 +28,7 @@ exports.load = function(
 
 	var stateKey = 'spotify_auth_state';
 
-	app.use(express.static(__dirname + '/public'))
-	   .use(cookieParser());
+	app.use(express.static('public')).use(cookieParser());
 
 	app.get('/login', function(req, res) {
 
@@ -135,7 +134,4 @@ exports.load = function(
 	    }
 	  });
 	});
-
-	console.log('Listening on 8888');
-	app.listen(8888);
 };
