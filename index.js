@@ -1,20 +1,26 @@
-var fs = Npm.require('fs');
-var key = fs.readFileSync(path.resolve(__dirname, 'key.pem'));
-var cert = fs.readFileSync(path.resolve(__dirname, 'cert.pem'));
-
+var fs = require('fs');
+var https = require('https');
+var http = require('http');
+var key = fs.readFileSync('key.pem');
+var cert = fs.readFileSync('cert.pem');
 
 var express = require('express');
 var app = express();
 
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(express.json());       // to support JSON-encoded bodies
+//app.use(express.json());       // to support JSON-encoded bodies
 
+var credentials = {key: privateKey, cert: certificate};
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
 
-https.createServer({
-	key: key,
-	cert: cert
-}, app).listen(443);
+httpServer.listen(8080);
+httpsServer.listen(8443);
+
+app.get('/', function(req,res) {
+    res.send('hello');
+});
 
 
 var SpotifyWebApi = require('spotify-web-api-node');
