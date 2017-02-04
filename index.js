@@ -3,6 +3,7 @@
 var fs = require('fs');
 var https = require('https');
 var http = require('http');
+var request = require('request');
 var key = fs.readFileSync('key.pem');
 var cert = fs.readFileSync('cert.pem');
 
@@ -10,7 +11,7 @@ var express = require('express');
 var app = express();
 
 var bodyParser = require('body-parser').json();
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use( bodyParser );       // to support JSON-encoded bodies
 app.use(function(req, res, next) {
   res.setHeader("Content-Type", "application/json")
   next();
@@ -41,7 +42,6 @@ client.connect('mongodb://localhost:27017/qhacks', function (err, db) {
  * Facebook BOT
  */
 var crypto  = require('crypto');
-var request = require('request');
 var fbbot   = require('fbbot/app.js');
 
 // Loads fbbot
@@ -64,7 +64,8 @@ server.load(
     bodyParser,
     express,
     https,
-    mongodb
+    mongodb,
+    request
 );
 
 /*
@@ -82,5 +83,6 @@ spotify.load(
     https,
     mongodb,
     config,
-    SpotifyWebApi
+    SpotifyWebApi,
+    request
 );
