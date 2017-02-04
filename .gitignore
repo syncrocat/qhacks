@@ -6,3 +6,5 @@ BOT/ssh.sh
 BOT/*.pem
 cert.pem
 key.pem
+
+node_modules/*

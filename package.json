@@ -16,7 +16,11 @@
   },
   "homepage": "https://github.com/syncrocat/qhacks#readme",
   "dependencies": {
+    "body-parser": "^1.16.0",
     "express": "^4.14.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "https": "^1.0.0",
     "mongodb": "^2.2.22",
     "spotify-web-api-node": "^2.3.6"
   },

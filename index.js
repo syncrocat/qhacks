@@ -11,7 +11,7 @@ var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 //app.use(express.json());       // to support JSON-encoded bodies
 
-var credentials = {key: privateKey, cert: certificate};
+var credentials = {key: key, cert: cert};
 var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 
@@ -22,7 +22,7 @@ app.get('/', function(req,res) {
     res.send('hello');
 });
 
-
+/*
 var SpotifyWebApi = require('spotify-web-api-node');
 var config = require('./config');
 
@@ -33,7 +33,7 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 spotifyApi.setAccessToken("BQDpJ1yH71Ytvf0T9h8sZCjhyyOCyUu6KkZJvZ51iWXfe64KyBy_T6PluQUT9aoOhnQDWqX3oAg9biXMXqy6_sZh6z0DRoO6vfQdvNW3m2wZsQPtO_4BuxBa1KzqBxOY4gDMgT5F5OrokhbaLgymZSRx2_4GhhLNtQsxTyyDypSpEq0iFkNg063Ttaozk9T2awXl6k7QRV31FLLP5UG_Y4TsDNstYnU5rp8mMdJDyRnVtpmetdF_CX6FwxqVQdF_KB07m9O0U_NrtTtvXVPTQ1mZupYbgKHXzZANQy05DcHS73CzNJw");
-
+*/
 //mongoDB
 
 var mongodb = require('mongodb');
@@ -58,6 +58,7 @@ app.post("/routers/:id",function(request, response){
 
 	    response.writeHead(400, {"Content-Type": "application/json"});
 	    response.write(JSON.stringify(obj));
+	    return;
 	}
 
 	var router = {
