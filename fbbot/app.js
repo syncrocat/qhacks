@@ -54,12 +54,12 @@ exports.load = function(
                         console.log(messagingEvent);
 
                         var message = messagingEvent.message.text.toLowerCase();
-                        var user = (users[messagingEvent.sender] = users[messagingEvent.sender] || {
+                        var user = (users[messagingEvent.sender.id] = users[messagingEvent.sender.id] || {
                             state: {
                                 type: states.ACCEPT_COMMAND,
                                 data: undefined,
                             },
-                            id: messagingEvent.sender,
+                            id: messagingEvent.sender.id,
                             messages: [],
                         });
 
