@@ -132,7 +132,7 @@ exports.load = function(
 	  });
 	});
 
-  app.get('/add_song/:userid/:playlistid/:songs/', function(req, res) {
+  app.get('/add_song/:userid/:playlistid/:songs', function(req, res) {
     console.log("Here's what I got:");
     console.log(req.params.userid);
     console.log(req.params.playlistid);
