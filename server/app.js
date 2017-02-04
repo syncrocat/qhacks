@@ -92,6 +92,19 @@ exports.load = function(
 	    });
 	});
 
+	exports.addUser(access_token, refresh_token, mac_address){
+		var user = {
+			"mac_address": mac_address,
+			"access_token" : access_token,
+			"refresh_token" : refresh_token
+		};
+
+		var collection = database.collection('users');
+		collection.remove({'spotify_id':id});
+	    collection.insertOne(user);
+	    return user;
+	}
+
 	//return list of current users
 	app.get("/routers/:id/users",function(request,response){
 		var id = request.params.id;
