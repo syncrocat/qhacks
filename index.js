@@ -47,7 +47,7 @@ var fbbot   = require('./fbbot/app.js');
 // Loads fbbot
 fbbot.load(
     app,
-    bodyParser,
+    require('body-parser'),
     crypto,
     express,
     https,
