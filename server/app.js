@@ -93,7 +93,7 @@ exports.load = function(
 	    });
 	});
 
-	exports.addUser(access_token, refresh_token, mac_address){
+	exports.addUser = function(access_token, refresh_token, mac_address){
 		var user = {
 			"mac_address": mac_address,
 			"access_token" : access_token,
