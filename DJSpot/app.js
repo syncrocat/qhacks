@@ -97,7 +97,7 @@ exports.load = function(
 
 
 
-            spotify.getUserGenres(accessToken, function(genres) {
+            spotify.getUserGenres(access_token, function(genres) {
               if(mac.length > 0){
                 server.addUser(display_name, id, access_token, refresh_token, mac, genres);
                 if(router_id.length > 0)
