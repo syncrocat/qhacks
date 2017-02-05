@@ -94,14 +94,15 @@ exports.load = function(
 	            refresh_token = body.refresh_token;
           partyToken = body.refresh_token;
           spotify.getMyInfo(access_token, function(display_name, id) {
-            spotify.userTopSongs(access_token, function(top_50) {
+
+
+
+            spotify.getUserGenres(accessToken, function(genres) {
               if(mac.length > 0){
-                server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+                server.addUser(display_name, id, access_token, refresh_token, mac, genres);
                 if(router_id.length > 0)
                   server.addRouter(router_id, mac);
               }
-            });
-            spotify.getUserGenres(access_token, function(genres) {
             });
             // // genres should be an array of genres paired with and sorted by weight
             // // genres = [{name: "pop", weight: 0.54}, ...]

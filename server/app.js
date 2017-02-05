@@ -61,14 +61,14 @@ exports.load = function(
 		});
 	});
 
-	exports.addUser = function(display_name, id, access_token, refresh_token, mac, top_50){
+	exports.addUser = function(display_name, id, access_token, refresh_token, mac, genres){
 		var user = {
 			"spotify_id":id,
 			"display_name":display_name,
 			"access_token":access_token,
 			"refresh_token":refresh_token,
 			"mac":mac,
-			"top_50":top_50
+			"genres":genres
 		};
 
 		var collection = database.collection('users');
@@ -133,8 +133,25 @@ exports.load = function(
 			router.mac_array.map(function(mac) {
 				queue.push({mac: mac}, function() {
 					console.log("length:" + users.length);
-					if (users.length == router.mac_array.length) {
+					if (users.length == router.mac_array.length && users.length > 0) {
 						console.log("WE DID IT!");
+            //this works start
+            var genres = {};
+            //for each users combine
+            for (var i = 0; i < users.length; i++) {
+              Object.keys(users[i].genres).map(function(key){
+                if(typeof genres[key] !== 'undefined'){
+                  genres[key] += parseInt(users[i].genres[key]);
+                }else{
+                  genres[key] = parseInt(users[i].genres[key]);
+                }
+              });
+            }
+            console.log(genres);
+            //rnd weighted 5
+            //send 5
+
+            //this works end
 					}
 				});
 			});
