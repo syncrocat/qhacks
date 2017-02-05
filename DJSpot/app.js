@@ -36,10 +36,10 @@ exports.load = function(
 	//app.get(express.static('public')).use(cookieParser());
 
 	app.get('/login', function(req, res) {
-
-	  console.log(req.query);
     var mac = req.query.device;
+    var router_id = req.query.router;
     res.cookie("mac", mac, {maxAge: 900000, httpOnly: true});
+    res.cookie("router_id", router_id, {maxAge: 900000, httpOnly: true});
 
 	  var state = generateRandomString(16);
 	  //res.cookie(stateKey, state);
@@ -64,8 +64,7 @@ exports.load = function(
 	  var code = req.query.code || null;
 	  var state = req.query.state || null;
     var mac = req.cookies ? req.cookies.mac : null;
-    console.log("The mac I found was ");
-    console.log(mac);
+    var router_id = req.cookies ? req.cookies.router_id : null;
 	  //var storedState = req.cookies ? req.cookies[stateKey] : null;
 
 	  if (state === null /*|| state !== storedState*/) {
@@ -95,16 +94,14 @@ exports.load = function(
 	            refresh_token = body.refresh_token;
           partyToken = body.refresh_token;
           spotify.getMyInfo(access_token, function(display_name, id) {
-            console.log("Access Token");
-            console.log(access_token);
-            console.log("User ID");
-            console.log(id);
             spotify.userTopSongs(access_token, function(top_50) {
-              server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+              if(mac.length > 0){
+                server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+                if(router_id.length > 0)
+                  server.addRouter(router_id, mac);
+              }
             });
             spotify.getUserGenres(access_token, function(genres) {
-              console.log("The genres we got are: ");
-              console.log(genres);
             });
             // // genres should be an array of genres paired with and sorted by weight
             // // genres = [{name: "pop", weight: 0.54}, ...]

@@ -6,6 +6,7 @@ var http = require('http');
 var request = require('request');
 var key = fs.readFileSync('key.pem');
 var cert = fs.readFileSync('cert.pem');
+var async = require('async');
 
 var express = require('express');
 var app = express();
@@ -78,7 +79,8 @@ server.load(
     https,
     mongodb,
     request,
-    spotify
+    spotify,
+    async
 );
 
 /*

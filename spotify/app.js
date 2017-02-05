@@ -14,6 +14,7 @@ exports.load = function(
   // Assumes ownerId and refreshId are associated with a routerId
   // Assumes you can update the accessToken associated with a router owner
   exports.refreshPartyToken = function(ownerId, refreshId, callback) {
+        console.log('FOOOOOOOOOOBBBAAARR');
     var authOptions = {
 	    url: 'https://accounts.spotify.com/api/token',
 	    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
@@ -26,9 +27,11 @@ exports.load = function(
 
 	  request.post(authOptions, function(error, response, body) {
 	    if (!error && response.statusCode === 200) {
+        console.log('updated auth');
 	      var access_token = body.access_token;
 	      callback(access_token);
 	    }
+      console.log('failed to update auth');
 	  });
   };
 
@@ -94,8 +97,6 @@ exports.load = function(
     var genres = {};
     request.get(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
-        console.log("The body:");
-        console.log(body);
         body.artists.forEach(function(e) {
           e.genres.forEach(function(f) {
             if (f in genres) {
