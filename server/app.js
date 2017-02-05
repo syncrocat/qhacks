@@ -17,34 +17,6 @@ exports.load = function(
 	    }
 	});
 
-    //adds or updates a router object
-	app.post("/routers/:id",function(request, response){
-	    var id = request.params.id;
-
-		if(id == null || request.body.access_token == null ||
-			request.body.display_name == null){
-			console.log("bad router");
-			var obj = { error : "missing parameter"};
-
-		    response.send(JSON.stringify(obj));
-		    return;
-		}
-
-		var router = {
-			"access_token": request.body.access_token,
-			"display_name" : request.body.display_name,
-			"router_id" : id
-		};
-
-		var collection = database.collection('routers');
-		collection.remove({'router_id':id});
-	    collection.insertOne(router)
-	    .then(function(result) {
-	        console.log("Saved");
-		    response.send(JSON.stringify({success:true}));
-	    });
-	});
-
 	//updates the list of users on a router
 	app.post("/routers/:id/users",function(request, response){
 	    var id = request.params.id;
@@ -57,48 +29,12 @@ exports.load = function(
 		    response.send(JSON.stringify(obj));
 		    return;
 		}
+		console.log('macAddresses:');
+		console.log(macAddresses);
 
 		var user_router_rel_collection = database.collection('user_router_rel');
-		var users_collection = database.collection('users');
-
 		user_router_rel_collection.remove({'router_id':id});
-		for (var i = 0; i < macAddresses.length; i++) {
-			users_collection.findOne({'mac_address':macAddresses[i]}).then(function(result) {
-		        var new_rel = {
-					router_id: id,
-					spotify_id: result.spotify_id
-				};
-				user_router_rel_collection.insertOne(new_rel);
-		    });
-		}
-	});
-
-	//adds or updates a user
-	app.post("/users/:id",function(request,response){
-		var id = request.params.id;
-		if(id == null || request.body.macAddress == null ||
-			request.body.display_name == null){
-			console.log("bad user");
-			var obj = { error : "missing parameter"};
-
-		    response.send(JSON.stringify(obj));
-		    return;
-		}
-
-		var user = {
-			"mac_address": request.body.macAddress,
-			"display_name" : request.body.display_name,
-			"access_token" : request.body.access_token,
-			"spotify_id" : id
-		};
-
-		var collection = database.collection('users');
-		collection.remove({'spotify_id':id});
-	    collection.insertOne(user)
-	    .then(function(result) {
-	        console.log("Saved");
-		    response.send(JSON.stringify({success:true}));
-	    });
+		user_router_rel_collection.insertOne(macAddresses);
 	});
 
 	exports.addUser = function(display_name, id, access_token, refresh_token, mac, top_50){
@@ -117,6 +53,26 @@ exports.load = function(
 	    return user;
 	}
 
+	exports.getUserByID = function(id){
+		var collection = database.collection('users');
+		return collection.findOne({'spotify_id':id});
+	}
+
+	exports.getUserByMAC = function(id){
+		var collection = database.collection('users');
+		return collection.findOne({'mac':id});
+	}
+
+	exports.getRouterByID = function(id){
+		var collection = database.collection('routers');
+		return collection.findOne({'router_id':id});
+	}
+
+	exports.getRouterUserListByID = function(id){
+		var collection = database.collection('user_router_rel');
+		return collection.findOne({'router_id':id});
+	}
+/*
 	//return list of current users
 	app.get("/routers/:id/users",function(request,response){
 		var id = request.params.id;
@@ -139,4 +95,5 @@ exports.load = function(
 		    response.send(JSON.stringify(users));
 	    });
 	});
+	*/
 };
