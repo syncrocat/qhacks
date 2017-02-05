@@ -37,7 +37,7 @@ exports.load = function(
     });
 	};
 
-  exports.getMyId = function(accessToken, callback) {
+  exports.getMyInfo = function(accessToken, callback) {
     var authOptions = {
       url: 'https://api.spotify.com/v1/me',
       headers: { 'Authorization': 'Bearer ' + accessToken },
@@ -45,7 +45,7 @@ exports.load = function(
     };
     request.get(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
-        callback(body.id);
+        callback(body.display_name, body.id);
       } else {
         console.log(response.statusCode);
         console.log(error);

@@ -38,6 +38,7 @@ exports.load = function(
 	app.get('/login', function(req, res) {
 
 	  console.log(req.query);
+    var mac = requ.query.device;
 
 	  var state = generateRandomString(16);
 	  res.cookie(stateKey, state);
@@ -50,7 +51,8 @@ exports.load = function(
 	      client_id: client_id,
 	      scope: scope,
 	      redirect_uri: redirect_uri,
-	      state: state
+	      state: state,
+        mac: mac
 	    }));
 	});
 
@@ -61,6 +63,9 @@ exports.load = function(
 
 	  var code = req.query.code || null;
 	  var state = req.query.state || null;
+    var mac = req.query.mac || null;
+    console.log("The mac I found was ");
+    console.log(mac);
 	  //var storedState = req.cookies ? req.cookies[stateKey] : null;
 
 	  if (state === null /*|| state !== storedState*/) {
@@ -89,7 +94,7 @@ exports.load = function(
 	        var access_token = body.access_token,
 	            refresh_token = body.refresh_token;
           partyToken = body.refresh_token;
-          spotify.getMyId(access_token, function(id) {
+          spotify.getMyInfo(access_token, function(display_name, id) {
             console.log("Access Token");
             console.log(access_token);
             console.log("User ID");
