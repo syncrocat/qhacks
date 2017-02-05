@@ -154,37 +154,36 @@ exports.load = function(
             var goal5 = parseInt(Math.floor(Math.random()*total));
             var results = []
             Object.keys(genres).map(function(key){
-              goal1 -= genres[key];
-              if(goal1<0){
-                results.push(key);
-                goal1 = total*2;
-              }
+              if(results.length != 5){
+                goal1 -= genres[key];
+                if(goal1<0){
+                  results.push(key);
+                  goal1 = total*2;
+                }
 
-              goal2 -= genres[key];
-              if(goal2<0){
-                results.push(key);
-                goal2 = total*2;
-              }
+                goal2 -= genres[key];
+                if(goal2<0){
+                  results.push(key);
+                  goal2 = total*2;
+                }
 
-              goal3 -= genres[key];
-              if(goal3<0){
-                results.push(key);
-                goal3 = total*2;
-              }
+                goal3 -= genres[key];
+                if(goal3<0){
+                  results.push(key);
+                  goal3 = total*2;
+                }
 
-              goal4 -= genres[key];
-              if(goal4<0){
-                results.push(key);
-                goal4 = total*2;
-              }
+                goal4 -= genres[key];
+                if(goal4<0){
+                  results.push(key);
+                  goal4 = total*2;
+                }
 
-              goal5 -= genres[key];
-              if(goal5<0){
-                results.push(key);
-                goal5 = total*2;
-              }
-              if(results.length == 5){
-                break;
+                goal5 -= genres[key];
+                if(goal5<0){
+                  results.push(key);
+                  goal5 = total*2;
+                }
               }
             });
             console.log("the five seeds:");
