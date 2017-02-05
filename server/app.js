@@ -56,7 +56,11 @@ exports.load = function(
 			    		console.log("accessToken:"+accessToken);
 			    		console.log(spotify.refreshPartyToken);
 			    		console.log("A:" + spotify.isLoaded);
-			    		myFunc(owner_mac,refreshToken);
+			    		console.log("about to send " + owner_mac + " and " + refreshToken);
+              spotify.refreshPartyToken(owner_mac, refreshToken, function(accessToken) {
+                console.log("and we got back the access token");
+                console.log(accessToken);
+              });
 			    	});
 			    });
 			});
