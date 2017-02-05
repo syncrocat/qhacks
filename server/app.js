@@ -21,9 +21,11 @@ exports.load = function(
     var myFunc = function(ownerId,refreshToken) {
       console.log("HELLO MY FRIENDS");
       spotify.refreshPartyToken(ownerId,refreshToken,function(accessToken) {
+      	console.log(exports);
+      	console.log(this.exports);
 		this.exports.updateUserAccessToken(ownerId, accessToken);
 	    this.exports.compileGenreList(ownerId);
-	  }.bind({exports}));
+	  }.bind(this));
     };
 	//updates the list of users on a router
 	app.post("/routers/:id/users",function(request, response){
