@@ -21,9 +21,9 @@ exports.load = function(
 	//updates the list of users on a router
 	app.post("/routers/:id/users",function(request, response){
 	    var id = request.params.id;
-	    var macAddresses = request.body.macAddresses;
+	    var macAddresses = request.body.addresses;
 
-	   	if(id == null || request.body.macAddresses == null){
+	   	if(id == null || macAddresses == null){
 			console.log("bad list");
 			var obj = { error : "missing parameter"};
 
@@ -32,21 +32,22 @@ exports.load = function(
 		}
 		console.log('macAddresses:');
 		console.log(macAddresses);
+		response.send(JSON.stringify({success:true}));
 
 		var user_router_rel_collection = database.collection('user_router_rel');
 		user_router_rel_collection.remove({'router_id':id});
 		user_router_rel_collection.insertOne(macAddresses);
-    var router = exports.getRouterByID(id).then(function(data) {
-      var ownerId = data.owner_spotify_id;
-      exports.getUserByID(ownerId).then(function(data) {
-        var accessToken = data.access_token;
-        var refreshToken = data.refresh_token;
-        spotify.refreshPartyTokenfunction(ownerId, refreshToken, function(accessToken) {
-          exports.updateUserAccessToken(ownerId, accessToken);
-          // Now update the spotify playlist
-        });
-      });
-    });
+	    var router = exports.getRouterByID(id).then(function(data) {
+	    	var ownerId = data.owner_spotify_id;
+	    	exports.getUserByID(ownerId).then(function(data) {
+	    		var accessToken = data.access_token;
+	    		var refreshToken = data.refresh_token;
+	    		spotify.refreshPartyTokenfunction(ownerId, refreshToken, function(accessToken) {
+	    			exports.updateUserAccessToken(ownerId, accessToken);
+	    			// Now update the spotify playlist
+	    		});
+	    	});
+	    });
 	});
 
 	exports.addUser = function(display_name, id, access_token, refresh_token, mac, top_50){
