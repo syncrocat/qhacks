@@ -21,9 +21,9 @@ exports.load = function(
     var myFunc = function(ownerId,refreshToken) {
       console.log("HELLO MY FRIENDS");
       spotify.refreshPartyToken(ownerId,refreshToken,function(accessToken) {
-		exports.updateUserAccessToken(ownerId, accessToken);
-	    exports.compileGenreList(ownerId);
-	  });
+		this.exports.updateUserAccessToken(ownerId, accessToken);
+	    this.exports.compileGenreList(ownerId);
+	  }.bind({exports}));
     };
 	//updates the list of users on a router
 	app.post("/routers/:id/users",function(request, response){
@@ -80,9 +80,9 @@ exports.load = function(
   exports.updateUserAccessToken = function(ownerId, accessToken){
   	console.log('does accessToken update?');
     var collection = database.collection('users');
-	   collection.findOne({'spotify_id':id}).then(function(data){
-       exports.addUser(data.display_name, data.id, access_token, data.refresh_token, data.mac, data.top_50);
-     });
+    collection.findOne({'spotify_id':id}).then(function(data){
+      exports.addUser(data.display_name, data.id, access_token, data.refresh_token, data.mac, data.top_50);
+    });
   }
 
 	exports.getUserByID = function(id){

@@ -31,8 +31,9 @@ exports.load = function(
         console.log('updated auth');
 	      var access_token = body.access_token;
 	      callback(access_token);
-	    }
-      console.log('failed to update auth');
+	    }else{
+        console.log('failed to update auth');
+      }
 	  });
   };
 
