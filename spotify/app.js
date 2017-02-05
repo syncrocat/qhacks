@@ -25,6 +25,7 @@ exports.load = function(
 	    },
 	    json: true
 	  };
+    console.log("We created the auth options");
 
 	  request.post(authOptions, function(error, response, body) {
 	    if (!error && response.statusCode === 200) {
@@ -35,6 +36,7 @@ exports.load = function(
         console.log('failed to update auth');
       }
 	  });
+    console.log("we posted the request");
   };
 
 	exports.userTopSongs = function(accessToken, callback) {//function(request, response) {
