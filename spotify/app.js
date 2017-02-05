@@ -105,7 +105,7 @@ exports.load = function(
         });
         callback(genres);
       }
-    }
+    });
   };
 
   exports.getUserGenres = function(accessToken, callback) {
