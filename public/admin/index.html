@@ -81,7 +81,9 @@
                 data:JSON.stringify({preferences:preferences}),
                 done:function(result) {
                     console.log(result);
-                }
+                },
+                type:'POST',
+                url:"https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/preferences'
             })
             /*$.post(
                 "https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/preferences',
