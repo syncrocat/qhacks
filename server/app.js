@@ -171,11 +171,10 @@ exports.load = function(
   app.get("/routers/:id/updatePreferences",function(request, response){
     console.log("id:");
     var id = request.params.id;
-    console.log(request);
-    /*console.log(decodeURI(request.params.preferences));
-    console.log(JSON.parse(decodeURI(request.params.preferences)));
-    var preferences = JSON.parse(decodeURI(request.params.preferences));
-    console.log(id);
+    console.log(request.query);
+    var preferences = JSON.parse(request.query.preferences);
+    console.log(preferences);
+    /*
     var collection = database.collection('router_prefs');
     collection.findOne({'id':id}).then(function(router){
       exports.addRouterPrefs(router.id, preferences);
