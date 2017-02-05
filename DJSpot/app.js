@@ -65,7 +65,7 @@ exports.load = function(
 
 	  var code = req.query.code || null;
 	  var state = req.query.state || null;
-    var mac = req.cookies ? req.cookies[macKey] : null;
+    var mac = req.cookies ? req.cookies['macKey'] : null;
     console.log("The mac I found was ");
     console.log(mac);
 	  //var storedState = req.cookies ? req.cookies[stateKey] : null;
