@@ -186,13 +186,15 @@ exports.load = function(
       var authOptions = {
         url: 'https://api.spotify.com/v1/users/'+ownerId+'/playlists/'+playlist+'/tracks',
         headers: {
-          'Authorization': 'Bearer ' + accessToken
+          'Authorization': 'Bearer ' + accessToken,
+          'Content-Type':'application/json'
         },
         form:{
           uris:songs
         },
         json: true
       };
+      console.log(authOptions);
       request.put(authOptions, function(error, response, body) {
         if (!error && (response.statusCode === 201)) {
           callback(body.id);
