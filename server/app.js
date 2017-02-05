@@ -116,12 +116,30 @@ exports.load = function(
     var router_prefs = {
       "id":id,
       "preferences":{
-        "acousticness":0.5,
-        "danceability":0.9,
-        "energy":0.7,
-        "liveness":0.2,
-        "valence":0.5,
-        "popularity":0.7
+        acousticness: {
+            value: 0.5,
+            type: 'float',
+        },
+        danceability: {
+            value: 0.9,
+            type: 'float',
+        },
+        energy: {
+            value: 0.7,
+            type: 'float',
+        },
+        liveness: {
+            value: 0.2,
+            type: 'float',
+        },
+        valence: {
+            value: 0.5,
+            type: 'float',
+        },
+        popularity: {
+            value: 70,
+            type: 'int',
+        }
       }
     };
     collection.remove({'id':id});

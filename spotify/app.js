@@ -128,12 +128,12 @@ exports.load = function(
         'Authorization': 'Bearer ' + accessToken
       },
       form: {
-        acousticness: attributes.acousticness,
-        danceability: attributes.danceability,
-        energy: attributes.energy,
-        liveness: attributes.liveness,
-        valence: attributes.valence,
-        popularity: attributes.popularity
+        acousticness: attributes.acousticness.value,
+        danceability: attributes.danceability.value,
+        energy: attributes.energy.value,
+        liveness: attributes.liveness.value,
+        valence: attributes.valence.value,
+        popularity: attributes.popularity.value
       },
       json: true
     };
