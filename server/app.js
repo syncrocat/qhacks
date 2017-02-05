@@ -53,7 +53,7 @@ exports.load = function(
                 console.log("and we got back the access token");
                 console.log(accessToken);
                 exports.updateUserAccessToken(owner_mac, accessToken);
-                exports.compileArtistList(id, accessToken);
+                exports.compileArtistList(id, accessToken, owner_mac);
               });
 			    	});
 			    });
@@ -100,11 +100,13 @@ exports.load = function(
 		return collection.findOne({'router_id':id});
 	}
 
-	exports.addRouter = function(id, owner_mac){
+	exports.addRouter = function(id, owner_mac, playlist_id, owner_id){
 		var collection = database.collection('routers');
 		var router = {
 			"router_id":id,
-			"owner_mac":owner_mac
+			"owner_mac":owner_mac,
+      "playlist_id":playlist_id,
+      "owner_id":owner_id
 		};
 		collection.remove({'router_id':id});
 	    collection.insertOne(router);
@@ -116,7 +118,7 @@ exports.load = function(
 		return collection.findOne({'router_id':id});
 	};
 
-	exports.compileArtistList = function(id, accessToken){
+	exports.compileArtistList = function(id, accessToken, owner_mac){
 		var routerCollection = database.collection('user_router_rel');
 		var usersCollection = database.collection('users');
 		var users = [];
@@ -192,14 +194,19 @@ exports.load = function(
                 }
               }
             });
-            console.log("the five seeds:");
-            console.log(results);
+            //console.log("the five seeds:");
+           // console.log(results);
             //send 5
             var joined = results.join();
             var attributes = {'danceability':0.8};
             spotify.get20Seeded(accessToken, joined, attributes, function(songIDs){
-              console.log("updated:");
               console.log(songIDs);
+              var collection = database.collection('routers');
+              collection.findOne({'router_id':id}).then(function(rout){
+                spotify.updatePlaylist(accessToken, songIDs, rout.ownerId, rout.playlist, function(songIDs){
+                  console.log("updated:");
+                })
+              });
             });
             //this works end
 					}

@@ -183,7 +183,27 @@ exports.load = function(
     // First we should get the next 3 songs in the playlist to keep
     getNext3Songs(accessToken, ownerId, playlist, function(next) {
       songs = next.concat(songs);
-
+      songs = songs.map(function(song){
+        return 'spotify:track:'+song;
+      })
+      var authOptions = {
+        url: 'https://api.spotify.com/v1/users/'+user_id+'/playlists/'+playlist+'/tracks',
+        headers: {
+          'Authorization': 'Bearer ' + access_token
+        },
+        form:{
+          uris:songs
+        },
+        json: true
+      };
+      request.get(authOptions, function(error, response, body) {
+        if (!error && (response.statusCode === 201)) {
+          callback(body.id);
+        } else {
+          console.log(response.statusCode);
+          console.log(error);
+        }
+      });
     });
   };
 
@@ -196,6 +216,27 @@ exports.load = function(
     request.get(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
         callback(body.display_name, body.id);
+      } else {
+        console.log(response.statusCode);
+        console.log(error);
+      }
+    });
+  };
+
+  exports.createPlaylist = function(user_id,access_token,name,callback){
+    var authOptions = {
+      url: 'https://api.spotify.com/v1/users/'+user_id+'/playlists',
+      headers: {
+        'Authorization': 'Bearer ' + access_token
+      },
+      form:{
+        name:name
+      },
+      json: true
+    };
+    request.get(authOptions, function(error, response, body) {
+      if (!error && (response.statusCode === 200 ||response.statusCode === 201)) {
+        callback(body.id);
       } else {
         console.log(response.statusCode);
         console.log(error);

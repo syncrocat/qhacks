@@ -94,14 +94,14 @@ exports.load = function(
 	            refresh_token = body.refresh_token;
           partyToken = body.refresh_token;
           spotify.getMyInfo(access_token, function(display_name, id) {
-
-
-
             spotify.userTopArtists(access_token, function(artist) {
               if(mac.length > 0){
                 server.addUser(display_name, id, access_token, refresh_token, mac, artist);
-                if(router_id.length > 0)
-                  server.addRouter(router_id, mac);
+                if(router_id.length > 0){
+                  spotify.createPlaylist(id,access_token,"DJ-SPOT",function(playlist_id){
+                    server.addRouter(router_id, mac, playlist_id, id);
+                  });
+                }
               }
             });
             // // genres should be an array of genres paired with and sorted by weight
