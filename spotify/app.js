@@ -99,9 +99,9 @@ exports.load = function(
         body.artists.forEach(function(e) {
           e.genres.forEach(function(f) {
             if (f in genres) {
-              genres.f += 1;
+              genres[f] += 1;
             } else {
-              genres.f = 0;
+              genres[f] = 0;
             }
           });
         });
