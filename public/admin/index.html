@@ -91,6 +91,10 @@
                 function(result) {
                     if (result)
                     preferences = result.preferences;
+
+                    Object.keys(preferences).map(function(key) {
+                        get(key).value = preferences[key].value;
+                    });
                 }
             );
         });
