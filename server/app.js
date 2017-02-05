@@ -18,7 +18,9 @@ exports.load = function(
 	        database = db;
 	    }
 	});
-
+    var myFunc = function() {
+      console.log("HELLO MY FRIENDS");
+    };
 	//updates the list of users on a router
 	app.post("/routers/:id/users",function(request, response){
 	    var id = request.params.id;
@@ -48,6 +50,7 @@ exports.load = function(
 			    		console.log("accessToken:"+accessToken);
 			    		console.log(spotify.refreshPartyToken);
 			    		console.log("A:" + spotify.isLoaded);
+			    		myFunc();
 			    		/*spotify.refreshPartyToken(
 			    			ownerId,
 			    			refreshToken,
