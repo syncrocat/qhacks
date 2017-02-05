@@ -18,7 +18,9 @@ exports.load = function(
     console.log('FOOOOOOOOOOBBBAAARR');
     var authOptions = {
 	    url: 'https://accounts.spotify.com/api/token',
-	    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+	    headers: {
+        'Authorization': 'Basic ' + (new Buffer(clientId + ':' + clientSecret).toString('base64'))
+      },
 	    form: {
 	      grant_type: 'refresh_token',
 	      refresh_token: refreshId
