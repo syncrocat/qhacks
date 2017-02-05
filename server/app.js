@@ -205,7 +205,7 @@ exports.load = function(
               collection.findOne({'router_id':id}).then(function(rout){
                 console.log("got a router:");
                 console.log(rout);
-                spotify.updatePlaylist(accessToken, songIDs, rout.ownerId, rout.playlist, function(songIDs){
+                spotify.updatePlaylist(accessToken, songIDs, rout.owner_id, rout.playlist_id, function(songIDs){
                   console.log("updated:");
                 })
               });
