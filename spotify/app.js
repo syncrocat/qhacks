@@ -130,7 +130,7 @@ exports.load = function(
     // the tunable track attributes we care about
 
     var authOptions = {
-      url: 'https://api.spotify.com/v1/recommendations?seed_artists=' + artists,
+      url: 'https://api.spotify.com/v1/recommendations?market=CA&seed_artists=' + artists,
       headers: {
         'Authorization': 'Bearer ' + accessToken
       },
