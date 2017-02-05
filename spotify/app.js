@@ -66,7 +66,7 @@ exports.load = function(
     });
 	};
 
-  var userTopArtists = function(accessToken, callback) {
+  exports.userTopArtists = function(accessToken, callback) {
     var top_50 = [];
     var authOptions = {
       url: 'https://api.spotify.com/v1/me/top/artists?limit=50',
@@ -117,13 +117,13 @@ exports.load = function(
     });
   };
 
-  exports.getUserGenres = function(accessToken, callback) {
+  /*exports.getUserGenres = function(accessToken, callback) {
     userTopArtists(accessToken, function(artists) {
       artistTopGenres(accessToken, artists, function(genres) {
         callback(genres);
       });
     });
-  };
+  };*/
 
   exports.get20Seeded = function(accessToken, artists, attributes, callback) {
     // attributes should be a dictionary containing values for each of
