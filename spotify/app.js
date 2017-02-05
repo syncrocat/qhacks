@@ -143,8 +143,8 @@ exports.load = function(
     var songs = [];
     request.get(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
-        //console.log("Our 20Seeded body");
-        //console.log(body);
+        console.log("Our 20Seeded body");
+        console.log(body);
         body.tracks.forEach(function(e) {
           songs.push(e.id);
         });
