@@ -74,7 +74,6 @@ exports.load = function(
       //console.log("Here's what topSongs returned:");
       if (!error && response.statusCode === 200) {
         body.items.forEach(function(e) {
-          console.log(e.id);
           top_50.push(e.id);
         });
         callback(top_50);
@@ -149,20 +148,16 @@ exports.load = function(
   };
 
   var getNext3Songs = function(accessToken, ownerId, playlist, callback) {
-    console.log('in getNext3Songs');
     var authOptions = {
       url: 'https://api.spotify.com/v1/users/' + ownerId + '/playlists/' + playlist + '/tracks?limit=3',
       headers: {
         'Authorization': 'Bearer ' + accessToken
       }
     };
-    console.log(authOptions);
     var next = [];
     request.get(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
-        console.log("Our next 3 songs body");
         body = JSON.parse(body);
-        console.log(body.items);
         body.items.forEach(function(e) {
           next.push(e.track.id);
         });
@@ -177,7 +172,6 @@ exports.load = function(
 
   exports.updatePlaylist = function(accessToken, songs, ownerId, playlist, callback) {
     // First we should get the next 3 songs in the playlist to keep
-    console.log("in updatePlaylist");
     //getNext3Songs(accessToken, ownerId, playlist, function(next) {
     //songs = next.concat(songs);
     songs = songs.map(function(song){
@@ -194,7 +188,6 @@ exports.load = function(
       }),
       dataType:'json'
     };
-    console.log(authOptions);
     request.put(authOptions, function(error, response, body) {
       if (!error && (response.statusCode === 201)) {
         callback(body.id);

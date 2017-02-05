@@ -31,27 +31,17 @@ exports.load = function(
 		    response.send(JSON.stringify(obj));
 		    return;
 		}
-		console.log('macAddresses:');
-		console.log(macAddresses);
 		response.send(JSON.stringify({success:true}));
 
 		var user_router_rel_collection = database.collection('user_router_rel');
 		user_router_rel_collection.remove({'router_id':id}).then(function(){
 			user_router_rel_collection.insertOne({'router_id':id, 'mac_array':macAddresses}).then(function(){
-				console.log("id:"+id);
 			    var router = exports.getRouterByID(id).then(function(data) {
 			    	var owner_mac = data.owner_mac;
-			    	console.log("ownerId:"+owner_mac);
 			    	exports.getUserByMAC(owner_mac).then(function(data) {
 			    		var accessToken = data.access_token;
 			    		var refreshToken = data.refresh_token;
-			    		console.log("accessToken:"+accessToken);
-			    		console.log(spotify.refreshPartyToken);
-			    		console.log("A:" + spotify.isLoaded);
-			    		console.log("about to send " + owner_mac + " and " + refreshToken);
               spotify.refreshPartyToken(refreshToken, function(accessToken) {
-                console.log("and we got back the access token");
-                console.log(accessToken);
                 exports.updateUserAccessToken(owner_mac, accessToken);
                 exports.compileArtistList(id, accessToken, owner_mac);
               });
@@ -78,7 +68,6 @@ exports.load = function(
 	}
 
   exports.updateUserAccessToken = function(owner_mac, accessToken){
-  	console.log('does accessToken update?');
     var collection = database.collection('users');
     collection.findOne({'mac':owner_mac}).then(function(data){
       exports.addUser(data.display_name, data.id, accessToken, data.refresh_token, data.mac, data.artists);
@@ -122,7 +111,6 @@ exports.load = function(
 		var routerCollection = database.collection('user_router_rel');
 		var usersCollection = database.collection('users');
 		var users = [];
-		console.log("there");
 		var queue = async.queue(function(task, callback) {
 			usersCollection.findOne({'mac': task.mac}).then(function(user) {
 				users.push(user);
@@ -141,7 +129,7 @@ exports.load = function(
             for (var i = 0; i < users.length; i++) {
               if(users[i]==null)
                 continue;
-              console.log("for user:"+i);
+              console.log("for user:"+users[i].spotify_id);
               for (var j = 0; j < users[i].artists.length; j++) {
                 var artist = users[i].artists[j];
                 if(typeof artists[artist] !== 'undefined'){
@@ -200,11 +188,8 @@ exports.load = function(
             var joined = results.join();
             var attributes = {'danceability':0.8};
             spotify.get20Seeded(accessToken, joined, attributes, function(songIDs){
-              console.log(songIDs);
               var collection = database.collection('routers');
               collection.findOne({'router_id':id}).then(function(rout){
-                console.log("got a router:");
-                console.log(rout);
                 spotify.updatePlaylist(accessToken, songIDs, rout.owner_id, rout.playlist_id, function(songIDs){
                   console.log("updated:");
                 })
