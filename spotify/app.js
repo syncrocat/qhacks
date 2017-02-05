@@ -225,12 +225,9 @@ exports.load = function(
     var authOptions = {
       url: 'https://api.spotify.com/v1/users/'+user_id+'/playlists',
       headers: {
-        'Content-Type':'application/json',
-        'Authorization': 'Bearer ' + access_token
+        'Authorization': 'Bearer ' + access_token,
       },
-      body:JSON.stringify({
-        'name':name
-      }),
+      body: JSON.stringify({name:"djspot", public: false}),
       json: true
     };
     console.log('authOptions:');
