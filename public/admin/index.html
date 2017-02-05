@@ -95,7 +95,7 @@
                     console.log(result);
 
                     Object.keys(preferences).map(function(key) {
-                        get(key).value = preferences[key].value;
+                        get(key).value = preferences[key].value*(preferences[key].type == "float" ? 100 : 1);
                     });
                 }
             );
