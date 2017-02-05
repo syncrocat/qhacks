@@ -225,6 +225,7 @@ exports.load = function(
     var authOptions = {
       url: 'https://api.spotify.com/v1/users/'+user_id+'/playlists',
       headers: {
+        'Content-Type':'application/json',
         'Authorization': 'Bearer ' + access_token
       },
       form:{
