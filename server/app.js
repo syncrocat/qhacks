@@ -172,7 +172,7 @@ exports.load = function(
     console.log("id:");
     var preferences = request.body.preferences;
     var id = request.params.id;
-    console.log(id);
+    console.log(preferences);
     var collection = database.collection('router_prefs');
     collection.findOne({'id':id}).then(function(router){
       exports.addRouterPrefs(router.id, preferences);
