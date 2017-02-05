@@ -17,6 +17,7 @@ app.use(function(req, res, next) {
   //res.setHeader("Content-Type", "application/json")
   next();
 });
+app.use(express.json());
 
 app.use ("/", express.static("./public/home/"));
 app.use ("/Images", express.static("./public/home/Images"));
