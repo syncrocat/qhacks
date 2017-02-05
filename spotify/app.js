@@ -235,10 +235,8 @@ exports.load = function(
     };
     request.post(authOptions, function(error, response, body) {
       if (!error && (response.statusCode === 200 ||response.statusCode === 201)) {
-        console.log('response:');
-        console.log(response);
         console.log('body:');
-        console.log(body);
+        console.log(body.id);
         callback(body.id);
       } else {
         console.log(response.statusCode);
