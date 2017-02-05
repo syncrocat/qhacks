@@ -92,8 +92,13 @@
                     if (result)
                     preferences = result;
 
+                    console.log(result);
+
                     Object.keys(preferences).map(function(key) {
-                        get(key).value = preferences[key].value;
+                        console.log(get(key));
+                        console.log(key);
+
+                        //get(key).value = preferences[key].value;
                     });
                 }
             );
