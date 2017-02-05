@@ -90,7 +90,7 @@
                 "https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/preferences',
                 function(result) {
                     if (result)
-                    preferences = result;
+                    preferences = JSON.parse(result);
 
                     console.log(result);
 
