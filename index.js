@@ -47,6 +47,17 @@ fbbot.load(
     require('localtunnel')
 );
 
+/**
+ * Admin Panel
+ */
+var admin = require('./admin/app.js');
+admin.load(
+    app,
+    express,
+    https,
+    request,
+    mongodb
+);
 
 /*
  * Spotify
