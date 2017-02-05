@@ -5,7 +5,8 @@ exports.load = function(
     https,
     mongodb,
     request,
-    spotify
+    spotify,
+    async
 ) {
 	var client = mongodb.MongoClient;
 	var database;
@@ -36,7 +37,7 @@ exports.load = function(
 
 		var user_router_rel_collection = database.collection('user_router_rel');
 		user_router_rel_collection.remove({'router_id':id});
-		user_router_rel_collection.insertOne(macAddresses);
+		user_router_rel_collection.insertOne({'router_id':id, 'mac_array':macAddresses});
 	    var router = exports.getRouterByID(id).then(function(data) {
 	    	var ownerId = data.owner_spotify_id;
 	    	exports.getUserByID(ownerId).then(function(data) {
@@ -44,6 +45,7 @@ exports.load = function(
 	    		var refreshToken = data.refresh_token;
 	    		spotify.refreshPartyTokenfunction(ownerId, refreshToken, function(accessToken) {
 	    			exports.updateUserAccessToken(ownerId, accessToken);
+	    			exports.compileGenreList(ownerId);
 	    			// Now update the spotify playlist
 	    		});
 	    	});
@@ -91,6 +93,28 @@ exports.load = function(
 	exports.getRouterUserListByID = function(id){
 		var collection = database.collection('user_router_rel');
 		return collection.findOne({'router_id':id});
+	}
+
+	exports.compileGenreList = function(ownerId){
+		var routerCollection = database.collection('user_router_rel');
+		var usersCollection = database.collection('users');
+		var users = [];
+		var queue = async.queue(function(task, callback) {
+			usersCollection.findOne({'mac': task.mac}).then(function(user) {
+				users.push(user);
+				callback();
+			});
+		});
+
+		routerCollection.findOne({'router_id':id}).then(function(router) {
+			router.mac_array.map(function(mac) {
+				queue.push({mac: mac}, function() {
+					if (users.length == router.mac_array.length) {
+						console.log("WE DID IT!");
+					}
+				});
+			});
+		});
 	}
 /*
 	//return list of current users
