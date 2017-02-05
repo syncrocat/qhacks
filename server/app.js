@@ -142,6 +142,8 @@ exports.load = function(
             for (var i = 0; i < users.length; i++) {
               console.log("i:"+i);
               console.log(users[i]);
+              if(users[i]==null)
+                continue;
               Object.keys(users[i].genres).map(function(key){
                 console.log("for g:"+users[i].genres);
                 if(typeof genres[key] !== 'undefined'){
