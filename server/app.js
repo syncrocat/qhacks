@@ -47,7 +47,7 @@ exports.load = function(
 	    		var refreshToken = data.refresh_token;
 	    		console.log("accessToken:"+accessToken);
 	    		console.log(spotify.refreshPartyToken);
-	    		console.log(spotify.isLoaded);
+	    		console.log("A:" + spotify.isLoaded);
 	    		spotify.refreshPartyToken(
 	    			ownerId,
 	    			refreshToken,
