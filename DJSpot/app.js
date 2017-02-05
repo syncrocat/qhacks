@@ -39,9 +39,11 @@ exports.load = function(
 
 	  console.log(req.query);
     var mac = req.query.device;
+    res.cookie(macKey, mac);
 
 	  var state = generateRandomString(16);
 	  res.cookie(stateKey, state);
+
 
 	  // your application requests authorization
 	  var scope = 'user-read-private user-read-email user-top-read playlist-modify-public playlist-modify-private';
@@ -63,7 +65,7 @@ exports.load = function(
 
 	  var code = req.query.code || null;
 	  var state = req.query.state || null;
-    var mac = req.query.mac || null;
+    var mac = req.cookies ? req.cookies[macKey] : null;
     console.log("The mac I found was ");
     console.log(mac);
 	  //var storedState = req.cookies ? req.cookies[stateKey] : null;
