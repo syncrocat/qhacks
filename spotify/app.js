@@ -230,7 +230,7 @@ exports.load = function(
         'Authorization': 'Bearer ' + access_token
       },
       form:{
-        name:name
+        'name':name
       },
       json: true
     };
