@@ -90,6 +90,17 @@ exports.load = function(
 		return collection.findOne({'router_id':id});
 	}
 
+	exports.addRouter = function(id, owner_mac){
+		var collection = database.collection('routers');
+		var router = {
+			"router_id":id,
+			"owner_mac":owner_mac
+		};
+		collection.remove({'router_id':id});
+	    collection.insertOne(router);
+	    return router;
+	}
+
 	exports.getRouterUserListByID = function(id){
 		var collection = database.collection('user_router_rel');
 		return collection.findOne({'router_id':id});
