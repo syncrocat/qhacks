@@ -36,30 +36,32 @@ exports.load = function(
 		response.send(JSON.stringify({success:true}));
 
 		var user_router_rel_collection = database.collection('user_router_rel');
-		user_router_rel_collection.remove({'router_id':id});
-		user_router_rel_collection.insertOne({'router_id':id, 'mac_array':macAddresses});
-		console.log("id:"+id);
-	    var router = exports.getRouterByID(id).then(function(data) {
-	    	var owner_mac = data.owner_mac;
-	    	console.log("ownerId:"+owner_mac);
-	    	exports.getUserByMAC(owner_mac).then(function(data) {
-	    		var accessToken = data.access_token;
-	    		var refreshToken = data.refresh_token;
-	    		console.log("accessToken:"+accessToken);
-	    		console.log(spotify.refreshPartyToken);
-	    		console.log("A:" + spotify.isLoaded);
-	    		/*spotify.refreshPartyToken(
-	    			ownerId,
-	    			refreshToken,
-	    			function(accessToken) {
-	    				exports.updateUserAccessToken(ownerId, accessToken);
-	    				// Now update the spotify playlist
-	    			}
-	    		);*/
-	    		console.log("B");
-	    		exports.compileGenreList(ownerId);
-	    	});
-	    });
+		user_router_rel_collection.remove({'router_id':id}).then(function(){
+			user_router_rel_collection.insertOne({'router_id':id, 'mac_array':macAddresses}).then(function(){
+				console.log("id:"+id);
+			    var router = exports.getRouterByID(id).then(function(data) {
+			    	var owner_mac = data.owner_mac;
+			    	console.log("ownerId:"+owner_mac);
+			    	exports.getUserByMAC(owner_mac).then(function(data) {
+			    		var accessToken = data.access_token;
+			    		var refreshToken = data.refresh_token;
+			    		console.log("accessToken:"+accessToken);
+			    		console.log(spotify.refreshPartyToken);
+			    		console.log("A:" + spotify.isLoaded);
+			    		/*spotify.refreshPartyToken(
+			    			ownerId,
+			    			refreshToken,
+			    			function(accessToken) {
+			    				exports.updateUserAccessToken(ownerId, accessToken);
+			    				// Now update the spotify playlist
+			    			}
+			    		);*/
+			    		console.log("B");
+			    		exports.compileGenreList(ownerId);
+			    	});
+			    });
+			});
+		});
 	});
 
 	exports.addUser = function(display_name, id, access_token, refresh_token, mac, top_50){
