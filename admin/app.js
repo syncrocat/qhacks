@@ -21,18 +21,18 @@ exports.load = function(
         var id = res.params.id;
 
         if (typeof id === "undefined") {
-            res.json({
+            res.send(JSON.stringify({
                 error: "Undefined parameters",
-            });
+            }));
         }
         else {
             var router_prefs = database.collection('router_prefs');
             router_prefs
             .findOne({id: id})
             .then(function(router) {
-                res.json({
+                res.send(JSON.stringify({
                     preferences: router ? router.preferences : false,
-                });
+                }));
             });
         }
     });
@@ -45,9 +45,9 @@ exports.load = function(
         if (typeof preferences === "undefined" &&
             typeof id          === "undefined") {
 
-            res.json({
+            res.send(JSON.stringify({
                 error: "Undefined parameters",
-            });
+            }));
         }
         else {
             var router_prefs = database.collection('router_prefs');
@@ -61,9 +61,9 @@ exports.load = function(
                         preferences: preferences,
                     })
                     .then(function(updated) {
-                        res.json({
+                        res.send(JSON.stringify({
                             success: updated,
-                        });
+                        }));
                     });
                 }
                 else {
@@ -78,9 +78,9 @@ exports.load = function(
                         }
                     })
                     .then(function(updated) {
-                        res.json({
+                        res.send(JSON.stringify({
                             success: updated,
-                        });
+                        }));
                     });
                 }
             });
