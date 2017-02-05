@@ -32,17 +32,17 @@ exports.load = function(
 	var stateKey = 'spotify_auth_state';
 
 	app.use('/home', express.static(__dirname +'/public/'));
-
+  app.use(express.cookieParser());
 	//app.get(express.static('public')).use(cookieParser());
 
 	app.get('/login', function(req, res) {
 
 	  console.log(req.query);
     var mac = req.query.device;
-    res.cookie("mac", mac);
+    res.cookie("mac", mac, {maxAge: 900000, httpOnly: true});
 
 	  var state = generateRandomString(16);
-	  res.cookie(stateKey, state);
+	  //res.cookie(stateKey, state);
 
 
 	  // your application requests authorization
@@ -65,7 +65,7 @@ exports.load = function(
 
 	  var code = req.query.code || null;
 	  var state = req.query.state || null;
-    var mac = req.cookies ? req.cookies['mac'] : null;
+    var mac = req.cookies ? req.cookies.mac : null;
     console.log("The mac I found was ");
     console.log(mac);
 	  //var storedState = req.cookies ? req.cookies[stateKey] : null;
