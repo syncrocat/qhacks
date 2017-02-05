@@ -141,7 +141,9 @@ exports.load = function(
   }
 
   app.get("/routers/:id/preferences",function(request, response){
+    console.log("id:");
     var id = request.params.id;
+    console.log(id);
     var collection = database.collection('router_prefs');
     collection.findOne({'id':id}).then(function(data){
       response.send(JSON.stringify(data.preferences));
@@ -149,8 +151,10 @@ exports.load = function(
   });
 
   app.post("/routers/:id/preferences",function(request, response){
+    console.log("id:");
     var preferences = request.body.preferences;
     var id = request.params.id;
+    console.log(id);
     var collection = database.collection('router_prefs');
     collection.findOne({'id':id}).then(function(router){
       exports.addRouterPrefs(router.id, preferences);
