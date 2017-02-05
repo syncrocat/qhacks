@@ -53,7 +53,7 @@ exports.load = function(
                 console.log("and we got back the access token");
                 console.log(accessToken);
                 exports.updateUserAccessToken(owner_mac, accessToken);
-                exports.compileArtistList(id);
+                exports.compileArtistList(id, accessToken);
               });
 			    	});
 			    });
@@ -116,7 +116,7 @@ exports.load = function(
 		return collection.findOne({'router_id':id});
 	};
 
-	exports.compileArtistList = function(id){
+	exports.compileArtistList = function(id, accessToken){
 		var routerCollection = database.collection('user_router_rel');
 		var usersCollection = database.collection('users');
 		var users = [];
@@ -195,7 +195,12 @@ exports.load = function(
             console.log("the five seeds:");
             console.log(results);
             //send 5
-
+            var joined = results.join();
+            var attributes = {'danceability':0.8};
+            spotify.get20Seeded(accessToken, joined, attributes, function(songIDs){
+              console.log("updated:");
+              console.log(songIDs);
+            });
             //this works end
 					}
 				});
