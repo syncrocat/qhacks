@@ -51,8 +51,7 @@ exports.load = function(
 	      client_id: client_id,
 	      scope: scope,
 	      redirect_uri: redirect_uri,
-	      state: state,
-        mac: mac
+	      state: state
 	    }));
 	});
 
