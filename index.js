@@ -12,12 +12,11 @@ var express = require('express');
 var app = express();
 
 var bodyParser = require('body-parser').json();
-app.use( bodyParser );       // to support JSON-encoded bodies
+app.use( bodyParser() );       // to support JSON-encoded bodies
 app.use(function(req, res, next) {
   //res.setHeader("Content-Type", "application/json")
   next();
 });
-app.use(express.json());
 
 app.use ("/", express.static("./public/home/"));
 app.use ("/Images", express.static("./public/home/Images"));
