@@ -174,12 +174,11 @@ exports.load = function(
     console.log(request.query);
     var preferences = JSON.parse(request.query.preferences);
     console.log(preferences);
-    /*
     var collection = database.collection('router_prefs');
     collection.findOne({'id':id}).then(function(router){
       exports.addRouterPrefs(router.id, preferences);
       response.send(JSON.stringify({success:true}));
-    });*/
+    });
   });
 
   app.post("/routers/:id/preferences",function(request, response){
