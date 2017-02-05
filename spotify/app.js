@@ -226,6 +226,7 @@ exports.load = function(
       url: 'https://api.spotify.com/v1/users/'+user_id+'/playlists',
       headers: {
         'Content-Type':'application/json',
+        'Accept':'application/json',
         'Authorization': 'Bearer ' + access_token
       },
       form:{
@@ -234,6 +235,7 @@ exports.load = function(
       json: true
     };
     request.post(authOptions, function(error, response, body) {
+      console.log(body);
       if (!error && (response.statusCode === 200 ||response.statusCode === 201)) {
         callback(body.id);
       } else {
