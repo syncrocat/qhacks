@@ -1,17 +1,20 @@
 <!doctype html>
 <html>
   <head>
+    <title>DJ Spot - Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="CSS/style.css">
-    <style type="text/css">
-
-    </style>
+    <style type="text/css"></style>
   </head>
 
   <body>
     <div id= "headContainer">
       <div id ="photoContainer">
 
+
+        <form action="../admin/index.html">
+          <input id="ManageButton" type="submit" value="Manage Device Prefernces" />
+        </form>
         <img src="Images/DjSpotLogo.png" alt="DS Spot logo">
       </div>
     </div>
@@ -22,8 +25,8 @@
         <div id="login">
           <div id="One">
             <img id="Circle1" src="Images/circles-with-1.png" alt="oneCircl">
-            <input type="text" id="Device_Key" value="Device key">
-            <p> please enter your phone web-Address  See</br>easy Iphone and Android instructions below </p>
+            <input type="text" id="Device_Key" placeholder="Web-Address">
+            <p> Please enter your phone Web-Address See</br>easy Iphone and Android instructions below </p>
           </div>
           <div id="Two">
             <img id="Circle2" src="Images/circles-with-2.png" alt="TwoCircle">
@@ -34,7 +37,7 @@
           <div id="Three">
             <img id="Circle3" src="Images/circles-with-3.png" alt="ThreeCircle">
             <a id="login_button" class="btn btn-primary">Log in with Spotify</a>
-            <p> login to spotify to finish set up :) </p>
+            <p> Login to spotify to finish set up :) </p>
 
           </div>
 
@@ -194,7 +197,7 @@
       </div>
       <div id="androidPic4">
         <img src="Images/android-phone-material-design4.png" alt="AdroidPic4">
-        <div id="androidInstruction">Enter your Wi-Fi MAC Address</div>
+        <div id="androidInstruction">Enter your Wi-Fi MAC Address above</div>
       </div>
     </div>
   </div>
@@ -203,7 +206,7 @@
 
   <div id = "IphoneContanor">
     <div id = "IphoneContanorInner">
-    <H1>Iphone instructions:</H1>
+    <H1>Iphone instructions: </H1>
       <div id="IphonePic1">
         <img src="Images/Iphone-phone-material-design1.png" alt="IphonePic1">
         <div id="IphoneInstruction">Open "settings"</div>
@@ -218,14 +221,18 @@
       </div>
       <div id="IphonePic4">
         <img src="Images/Iphone-phone-material-design4.png" alt="IphonePic4">
-        <div id="IphoneInstruction">Enter your Wi-Fi MAC Address</div>
+        <div id="IphoneInstruction">Enter your Wi-Fi MAC Address above</div>
       </div>
     </div>
   </div>
-  <div class="flowchart">
+  <div id="flowchart">
+    <H2>Business Plan:</H2>
     <img id="imgflowchart" src="Images/FlowDiagram.png" alt="flowchart">
-
   </div>
-
   </body>
+  <footer>
+           <ul class="copyright">
+              <li>&copy; Copyright 2017 DJSPOT</li>
+           </ul>
+  </footer> <!-- Footer End-->
 </html>

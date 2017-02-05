@@ -5,16 +5,43 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="description" content="DJ Spot - Router Preferences">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../home/CSS/style.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
     </head>
     <body>
-        <div id="sliders"></div>
-        <input type="text" id="router_id"></input></br>
-        <input type="button" value="Load" id="load"></input>
-        <input type="button" value="Save" id="save"></input>
+        <div id= "headContainer">
+          <div id ="photoContainer">
+            <form action="../home/index.html">
+              <input id="ManageButton" type="submit" value="Home" />
+            </form>
+            <img src="../home/Images/DjSpotLogo.png" alt="DS Spot logo">
+          </div>
+        </div>
+        <div id ="middleCon">
+          <div id="center">
+            <div id="sliders">
+              <input type="text" id="router_id" placeholder="Enter Router Password"></input></br>
+            </div>
+            <input type="button" value="Load" id="load"></input>
+            <input type="button" value="Save" id="save"></input>
+            <div id ="poo">Acousticness</br>Danceability</br>Energy</br>Liveness</br>Valence</br>Popularity</div>
+
+          </div>
+        </div>
+        <div id="notes">
+
+          <p>Notes:</br> You must have set up your Router and account on the home page before you can access Admin functionality.
+          </br>Ajust the sliders from left to right, the more right a slider is the more likely a song of that mood will come up.
+          </br>You must enter you router ID found on the back of your router and click save for changes to take effect. </p>
+        </div>
     </body>
+    <footer>
+             <ul class="copyright">
+                <li>&copy; Copyright 2017 DJSPOT</li>
+             </ul>
+    </footer> <!-- Footer End-->
 </html>
 <script>
     (function() {
