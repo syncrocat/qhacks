@@ -155,6 +155,7 @@ exports.load = function(
   };
 
   var getNext3Songs = function(accessToken, ownerId, playlist, callback) {
+    console.log('in getNext3Songs');
     var authOptions = {
       url: 'https://api.spotify.com/v1/users/' + ownerId + '/playlists/' + playlist + '/tracks?limit=3',
       headers: {
@@ -179,6 +180,7 @@ exports.load = function(
 
   exports.updatePlaylist = function(accessToken, songs, ownerId, playlist, callback) {
     // First we should get the next 3 songs in the playlist to keep
+    console.log("in updatePlaylist");
     getNext3Songs(accessToken, ownerId, playlist, function(next) {
       songs = next.concat(songs);
       songs = songs.map(function(song){
@@ -194,7 +196,7 @@ exports.load = function(
         },
         json: true
       };
-      request.get(authOptions, function(error, response, body) {
+      request.put(authOptions, function(error, response, body) {
         if (!error && (response.statusCode === 201)) {
           callback(body.id);
         } else {
@@ -231,11 +233,7 @@ exports.load = function(
       body: JSON.stringify({'name':name, 'public': false}),
       dataType:'json'
     };
-    console.log('authOptions:');
-    console.log(authOptions);
     request.post(authOptions, function(error, response, body) {
-      console.log('body:::::::');
-      console.log(body);
       if (!error && (response.statusCode === 200 ||response.statusCode === 201)) {
         callback(body.id);
       } else {
