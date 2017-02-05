@@ -226,10 +226,9 @@ exports.load = function(
       url: 'https://api.spotify.com/v1/users/'+user_id+'/playlists',
       headers: {
         'Content-Type':'application/json',
-        'Accept':'application/json',
         'Authorization': 'Bearer ' + access_token
       },
-      data:JSON.stringify({
+      body:JSON.stringify({
         'name':name
       }),
       json: true
