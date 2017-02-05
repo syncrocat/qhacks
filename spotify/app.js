@@ -57,6 +57,67 @@ exports.load = function(
     });
 	};
 
+  var userTopArtists = function(accessToken, callback) {
+    var top_50 = [];
+    var authOptions = {
+      url: 'https://api.spotify.com/v1/me/top/artists?limit=50',
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      },
+      json: true
+    };
+
+    request.get(authOptions, function(error, response, body) {
+      console.log("Here's what topSongs returned:");
+      if (!error && response.statusCode === 200) {
+        body.items.forEach(function(e) {
+          console.log(e.id);
+          top_50.push(e.id);
+        });
+        callback(top_50);
+      } else {
+        console.log(response.statusCode);
+        console.log(error);
+      }
+    });
+	};
+
+  var artistTopGenres = function(accessToken, artists, callback) {
+    // artists is a comma-separated list of artist IDs
+    var authOptions = {
+      url: 'https://api.spotify.com/v1/artists?ids=' + artists,
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      },
+      json: true
+    };
+    var genres = {};
+    request.get(authOptions, function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+        console.log("The body:");
+        console.log(body);
+        body.artists.forEach(function(e) {
+          e.genres.forEach(function(f) {
+            if (f in genres) {
+              genres[f] += 1;
+            } else {
+              genres[f] = 0;
+            }
+          });
+        });
+        callback(genres);
+      }
+    });
+  };
+
+  exports.getUserGenres = function(accessToken, callback) {
+    userTopArtists(accessToken, function(artists) {
+      artistTopGenres(accessToken, artists, function(genres) {
+        callback(genres);
+      });
+    });
+  };
+
   exports.getMyInfo = function(accessToken, callback) {
     var authOptions = {
       url: 'https://api.spotify.com/v1/me',

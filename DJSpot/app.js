@@ -102,6 +102,10 @@ exports.load = function(
             spotify.userTopSongs(access_token, function(top_50) {
               server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
             });
+            spotify.getUserGenres(access_token, function(genres) {
+              console.log("The genres we got are: ");
+              console.log(genres);
+            });
   	        // we can also pass the token to the browser to make requests from there
   	        res.redirect('/goodJob');
           });
