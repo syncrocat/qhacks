@@ -148,6 +148,8 @@ exports.load = function(
                 }
               });
             }
+            console.log("artists:");
+            console.log(artists);
             //rnd weighted 5
             var goal1 = parseInt(Math.floor(Math.random()*total));
             var goal2 = parseInt(Math.floor(Math.random()*total));
