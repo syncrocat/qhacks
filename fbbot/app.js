@@ -83,16 +83,16 @@ exports.load = function(
 
                                 break;
                             case states.ACCEPT_COMMAND:
-                                /**/ if (/play/.test(message)) {
-                                    user.state.type = states.ACCEPT_PARAM;
-                                    user.state.data = "play";
-                                    sendMessage("What song do you want to play?", user.id);
-                                }
-                                else if (/playlist/.test(message)) {
+                                /**/ if (/playlist/.test(message)) {
                                     /**
                                      * TODO: GET THE CURRENT PLAYLIST
                                      */
                                     sendMessage("PLAYLIST TODO", user.id);
+                                }
+                                else if (/play/.test(message)) {
+                                    user.state.type = states.ACCEPT_PARAM;
+                                    user.state.data = "play";
+                                    sendMessage("What song do you want to play?", user.id);
                                 }
                                 else if (/up *next/.test(message)) {
                                     /**
