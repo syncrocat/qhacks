@@ -139,15 +139,17 @@ exports.load = function(
             for (var i = 0; i < users.length; i++) {
               if(users[i]==null)
                 continue;
-              for (var i = 0; i < users[i].artists.length; i++) {
-                if(typeof artists[users[i].artists] !== 'undefined'){
-                  artists[users[i].artists] += 1;
+              console.log("for user:"+i);
+              for (var j = 0; j < users[i].artists.length; j++) {
+                var artist = users[i].artists[j];
+                if(typeof artists[artist] !== 'undefined'){
+                  artists[artist] += 1;
                   total += 1;
                 }else{
-                  artists[users[i].artists] = 0;
+                  artists[artist] = 0;
                 }
-              }
-            }
+              };
+            };
             console.log("artists:");
             console.log(artists);
             //rnd weighted 5
