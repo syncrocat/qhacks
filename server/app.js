@@ -176,6 +176,7 @@ exports.load = function(
     var collection = database.collection('router_prefs');
     collection.findOne({'id':id}).then(function(router){
       exports.addRouterPrefs(router.id, preferences);
+      response.send(JSON.stringify({success:true}));
     });
   });
 

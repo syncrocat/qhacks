@@ -78,7 +78,7 @@
         get("save").addEventListener("click", function() {
             $.post(
                 "https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/preferences',
-                preferences,
+                {preferences:preferences},
                 function(result) {
                     console.log(result);
                 }
