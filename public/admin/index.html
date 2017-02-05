@@ -95,10 +95,7 @@
                     console.log(result);
 
                     Object.keys(preferences).map(function(key) {
-                        console.log(get(key));
-                        console.log(key);
-
-                        //get(key).value = preferences[key].value;
+                        get(key).value = preferences[key].value;
                     });
                 }
             );
