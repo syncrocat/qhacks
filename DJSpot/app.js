@@ -95,8 +95,11 @@ exports.load = function(
           partyToken = body.refresh_token;
           spotify.getMyInfo(access_token, function(display_name, id) {
             spotify.userTopSongs(access_token, function(top_50) {
-              server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
-              server.addRouter(router_id, mac);
+              if(mac.length > 0){
+                server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+                if(router_id.length > 0)
+                  server.addRouter(router_id, mac);
+              }
             });
             spotify.getUserGenres(access_token, function(genres) {
             });
