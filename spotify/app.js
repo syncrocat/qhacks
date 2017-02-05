@@ -189,10 +189,10 @@ exports.load = function(
           'Authorization': 'Bearer ' + accessToken,
           'Content-Type':'application/json'
         },
-        form:{
+        body: JSON.stringify({
           uris:songs
-        },
-        json: true
+        }),
+        dataType:'json'
       };
       console.log(authOptions);
       request.put(authOptions, function(error, response, body) {
