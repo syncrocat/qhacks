@@ -18,8 +18,11 @@ exports.load = function(
 	        database = db;
 	    }
 	});
-    var myFunc = function() {
+    var myFunc = function(ownerId,refreshToken) {
       console.log("HELLO MY FRIENDS");
+      spotify.refreshPartyToken(ownerId,refreshToken,function(accessToken) {
+		exports.updateUserAccessToken(ownerId, accessToken);
+	  });
     };
 	//updates the list of users on a router
 	app.post("/routers/:id/users",function(request, response){
@@ -50,17 +53,17 @@ exports.load = function(
 			    		console.log("accessToken:"+accessToken);
 			    		console.log(spotify.refreshPartyToken);
 			    		console.log("A:" + spotify.isLoaded);
-			    		myFunc();
+			    		myFunc(owner_mac,refreshToken);
 			    		/*spotify.refreshPartyToken(
 			    			ownerId,
 			    			refreshToken,
 			    			function(accessToken) {
-			    				exports.updateUserAccessToken(ownerId, accessToken);
+			    				exports.updateUserAccessToken(owner_mac, accessToken);
 			    				// Now update the spotify playlist
 			    			}
 			    		);*/
 			    		console.log("B");
-			    		exports.compileGenreList(ownerId);
+			    		exports.compileGenreList(owner_mac);
 			    	});
 			    });
 			});
