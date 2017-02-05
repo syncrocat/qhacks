@@ -130,7 +130,7 @@ exports.load = function(
 
             */
   	        // we can also pass the token to the browser to make requests from there
-  	        res.redirect('/goodJob');
+  	        res.redirect('/');
           });
 	      } else {
 	        res.redirect('/badJob');
