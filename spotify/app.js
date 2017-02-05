@@ -32,30 +32,30 @@ exports.load = function(
 	  });
   };
 
-	// exports.userTopSongs = function(accessToken, callback) {//function(request, response) {
-  //   var top_50 = [];
-  //   var authOptions = {
-  //     url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
-  //     headers: {
-  //       'Authorization': 'Bearer ' + accessToken
-  //     },
-  //     json: true
-  //   };
-  //
-  //   request.get(authOptions, function(error, response, body) {
-  //     console.log("Here's what topSongs returned:");
-  //     if (!error && response.statusCode === 200) {
-  //       body.items.forEach(function(e) {
-  //         console.log(e.id);
-  //         top_50.push(e.id);
-  //       });
-  //       callback(top_50);
-  //     } else {
-  //       console.log(response.statusCode);
-  //       console.log(error);
-  //     }
-  //   });
-	// };
+	exports.userTopSongs = function(accessToken, callback) {//function(request, response) {
+    var top_50 = [];
+    var authOptions = {
+      url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      },
+      json: true
+    };
+
+    request.get(authOptions, function(error, response, body) {
+      console.log("Here's what topSongs returned:");
+      if (!error && response.statusCode === 200) {
+        body.items.forEach(function(e) {
+          console.log(e.id);
+          top_50.push(e.id);
+        });
+        callback(top_50);
+      } else {
+        console.log(response.statusCode);
+        console.log(error);
+      }
+    });
+	};
 
   var userTopArtists = function(accessToken, callback) {
     var top_50 = [];
