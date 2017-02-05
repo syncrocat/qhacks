@@ -23,7 +23,7 @@ exports.load = function(
 	    var id = request.params.id;
 	    var macAddresses = request.body.addresses;
 
-	   	if(id == null || addresses == null){
+	   	if(id == null || macAddresses == null){
 			console.log("bad list");
 			var obj = { error : "missing parameter"};
 
