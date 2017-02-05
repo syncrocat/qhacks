@@ -166,10 +166,6 @@ exports.load = function(
 
   app.get('/add_song/:userid/:playlistid/:songs', function(req, res) {
     // Should be a comma-separated list of songs
-    console.log("Here's what I got:");
-    console.log(req.params.userid);
-    console.log(req.params.playlistid);
-    console.log(req.params.songs);
     var userId = req.params.userid;
     var playlistId = req.params.playlistid;
     var songs = req.params.songs;

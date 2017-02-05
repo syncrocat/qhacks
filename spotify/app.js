@@ -15,7 +15,6 @@ exports.load = function(
   // Assumes ownerId and refreshId are associated with a routerId
   // Assumes you can update the accessToken associated with a router owner
   exports.refreshPartyToken = function(refreshId, callback) {
-    console.log('FOOOOOOOOOOBBBAAARR');
     var authOptions = {
 	    url: 'https://accounts.spotify.com/api/token',
 	    headers: {
@@ -27,18 +26,15 @@ exports.load = function(
 	    },
 	    json: true
 	  };
-    console.log("We created the auth options");
 
 	  request.post(authOptions, function(error, response, body) {
 	    if (!error && response.statusCode === 200) {
-        console.log('updated auth');
 	      var access_token = body.access_token;
 	      callback(access_token);
 	    }else{
         console.log('failed to update auth');
       }
 	  });
-    console.log("we posted the request");
   };
 
 	exports.userTopSongs = function(accessToken, callback) {//function(request, response) {
@@ -52,10 +48,8 @@ exports.load = function(
     };
 
     request.get(authOptions, function(error, response, body) {
-      console.log("Here's what topSongs returned:");
       if (!error && response.statusCode === 200) {
         body.items.forEach(function(e) {
-          console.log(e.id);
           top_50.push(e.id);
         });
         callback(top_50);
@@ -174,6 +168,7 @@ exports.load = function(
       } else {
         console.log(response.statusCode);
         console.log(error);
+        console.log(response);
       }
     });
   };
@@ -235,10 +230,7 @@ exports.load = function(
     };
     request.post(authOptions, function(error, response, body) {
       if (!error && (response.statusCode === 200 ||response.statusCode === 201)) {
-        console.log('body:');
-        console.log(body);
         body = JSON.parse(body);
-        console.log(body.id)
         callback(body.id);
       } else {
         console.log(response.statusCode);
