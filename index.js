@@ -18,6 +18,9 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use ("/", express.static("./public/home/"));
+app.use ("/admin", express.static("./public/admin/"));
+
 var credentials = {key: key, cert: cert};
 var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
