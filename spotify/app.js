@@ -199,6 +199,7 @@ exports.load = function(
         } else {
           console.log(response.statusCode);
           console.log(error);
+          console.log(body);
         }
       });
     });
