@@ -229,9 +229,9 @@ exports.load = function(
         'Accept':'application/json',
         'Authorization': 'Bearer ' + access_token
       },
-      form:{
+      data:JSON.stringify({
         'name':name
-      },
+      }),
       json: true
     };
     console.log('authOptions:');
