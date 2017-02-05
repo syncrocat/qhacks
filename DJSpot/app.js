@@ -97,9 +97,9 @@ exports.load = function(
 
 
 
-            spotify.getUserGenres(access_token, function(genres) {
+            spotify.userTopArtists(access_token, function(artist) {
               if(mac.length > 0){
-                server.addUser(display_name, id, access_token, refresh_token, mac, genres);
+                server.addUser(display_name, id, access_token, refresh_token, mac, artist);
                 if(router_id.length > 0)
                   server.addRouter(router_id, mac);
               }

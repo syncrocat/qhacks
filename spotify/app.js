@@ -77,7 +77,7 @@ exports.load = function(
     };
 
     request.get(authOptions, function(error, response, body) {
-      console.log("Here's what topSongs returned:");
+      //console.log("Here's what topSongs returned:");
       if (!error && response.statusCode === 200) {
         body.items.forEach(function(e) {
           console.log(e.id);
@@ -125,12 +125,12 @@ exports.load = function(
     });
   };
 
-  exports.get20Seeded = function(accessToken, genres, attributes, callback) {
+  exports.get20Seeded = function(accessToken, artists, attributes, callback) {
     // attributes should be a dictionary containing values for each of
     // the tunable track attributes we care about
 
     var authOptions = {
-      url: 'https://api.spotify.com/v1/recommendations?seed_genres=' + genres,
+      url: 'https://api.spotify.com/v1/recommendations?seed_artist=' + artists,
       headers: {
         'Authorization': 'Bearer ' + accessToken
       },
