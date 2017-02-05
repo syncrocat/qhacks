@@ -232,7 +232,7 @@ exports.load = function(
       },
       json: true
     };
-    request.get(authOptions, function(error, response, body) {
+    request.post(authOptions, function(error, response, body) {
       if (!error && (response.statusCode === 200 ||response.statusCode === 201)) {
         callback(body.id);
       } else {
