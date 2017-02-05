@@ -146,7 +146,7 @@ exports.load = function(
                   artists[artist] += 1;
                   total += 1;
                 }else{
-                  artists[artist] = 0;
+                  artists[artist] = 1;
                 }
               };
             };
