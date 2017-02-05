@@ -29,13 +29,29 @@ exports.load = function(
           console.log(e.id);
           top_50.push(e.id);
         });
-        return top_50;
+        callback(top_50);
       } else {
         console.log(response.statusCode);
         console.log(error);
       }
     });
 	};
+
+  exports.getMyInfo = function(accessToken, callback) {
+    var authOptions = {
+      url: 'https://api.spotify.com/v1/me',
+      headers: { 'Authorization': 'Bearer ' + accessToken },
+      json: true
+    };
+    request.get(authOptions, function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+        callback(body.display_name, body.id);
+      } else {
+        console.log(response.statusCode);
+        console.log(error);
+      }
+    });
+  };
 
 	// exports.addTrack(id, playlist, tracks, callback) {
 	//   // requests.params.tracks should be a comma-separated list of Spotify Track URIs
