@@ -117,7 +117,7 @@ exports.load = function(
             //     chosen.push(genre.name)
             //   }
             // });
-            
+
 
             /*
 
@@ -130,7 +130,7 @@ exports.load = function(
 
             */
   	        // we can also pass the token to the browser to make requests from there
-  	        res.redirect('/');
+  	        res.redirect("Success.html");
           });
 	      } else {
 	        res.redirect('/badJob');

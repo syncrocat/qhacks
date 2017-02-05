@@ -55,14 +55,10 @@
       <script id="user-profile-template" type="text/x-handlebars-template">
         <!-- <h1>Logged in as {{display_name}}</h1> -->
         <div class="media">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
           <div id ="success">success</div>
-=======
           <script>document.location.href="./Success.html";</script>
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
           <div class="pull-left">
             <!-- <img class="media-object" width="150" src="{{images.0.url}}" /> -->
           </div>
@@ -102,7 +98,7 @@
             var Device_Key = document.getElementById("Device_Key").value;
 
             window.location = "/login?router=" + Router_Key + "&device=" + Device_Key;
-            document.location.href="./Success.html";
+
           }
 
           function getHashParams() {
@@ -151,6 +147,7 @@
 
                     $('#login').hide();
                     $('#loggedin').show();
+
                   }
               });
             } else {
