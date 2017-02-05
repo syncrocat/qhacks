@@ -76,15 +76,12 @@
             div.appendChild(input);
         });
         get("save").addEventListener("click", function() {
-            $.ajax({
-                contextType: 'application/json',
-                data:JSON.stringify({preferences:preferences}),
-                done:function(result) {
+            $.get(
+                "https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/updatePreferences?preferences='+JSON.stringify(preferences),
+                function(result) {
                     console.log(result);
-                },
-                type:'POST',
-                url:"https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/preferences'
-            })
+                }
+            );
             /*$.post(
                 "https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/preferences',
                 {preferences:preferences},

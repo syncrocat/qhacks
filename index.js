@@ -11,7 +11,7 @@ var async = require('async');
 var express = require('express');
 var app = express();
 
-var bodyParser = require('body-parser')().json();
+var bodyParser = require('body-parser').json();
 app.use( bodyParser );       // to support JSON-encoded bodies
 app.use(function(req, res, next) {
   //res.setHeader("Content-Type", "application/json")

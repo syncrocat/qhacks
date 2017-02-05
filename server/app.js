@@ -168,6 +168,18 @@ exports.load = function(
     });
   });
 
+  app.get("/routers/:id/updatePreferences",function(request, response){
+    console.log("id:");
+    var id = request.params.id;
+    var preferences = JSON.parse(request.params.preferences);
+    console.log(id);
+    var collection = database.collection('router_prefs');
+    collection.findOne({'id':id}).then(function(router){
+      exports.addRouterPrefs(router.id, preferences);
+      response.send(JSON.stringify({success:true}));
+    });
+  });
+
   app.post("/routers/:id/preferences",function(request, response){
     console.log("id:");
     var preferences = request.body.preferences;
