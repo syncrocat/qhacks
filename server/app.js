@@ -46,7 +46,7 @@ exports.load = function(
 	    		var accessToken = data.access_token;
 	    		var refreshToken = data.refresh_token;
 	    		console.log("accessToken:"+accessToken);
-	    		spotify.refreshPartyTokenfunction(ownerId, refreshToken, function(accessToken) {
+	    		spotify.refreshPartyToken(ownerId, refreshToken, function(accessToken) {
 	    			exports.updateUserAccessToken(ownerId, accessToken);
 	    			exports.compileGenreList(ownerId);
 	    			// Now update the spotify playlist
@@ -72,6 +72,7 @@ exports.load = function(
 	}
 
   exports.updateUserAccessToken = function(ownerId, accessToken){
+  	console.log('does accessToken update?');
     var collection = database.collection('users');
 	   collection.findOne({'spotify_id':id}).then(function(data){
        exports.addUser(data.display_name, data.id, access_token, data.refresh_token, data.mac, data.top_50);

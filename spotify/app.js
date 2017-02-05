@@ -26,9 +26,11 @@ exports.load = function(
 
 	  request.post(authOptions, function(error, response, body) {
 	    if (!error && response.statusCode === 200) {
+        console.log('updated auth');
 	      var access_token = body.access_token;
 	      callback(access_token);
 	    }
+      console.log('failed to update auth');
 	  });
   };
 
