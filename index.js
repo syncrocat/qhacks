@@ -19,6 +19,7 @@ app.use(function(req, res, next) {
 });
 
 app.use ("/", express.static("./public/home/"));
+app.use ("/Images", express.static("./public/home/Images"));
 app.use ("/admin", express.static("./public/admin/"));
 
 var credentials = {key: key, cert: cert};
