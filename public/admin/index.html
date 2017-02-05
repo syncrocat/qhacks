@@ -75,10 +75,9 @@
 
             div.appendChild(input);
         });
-
         get("save").addEventListener("click", function() {
             $.post(
-                "https://djspotbot.localtunnel.me/admin/" + get("router_id").value,
+                "https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/preferences',
                 preferences,
                 function(result) {
                     console.log(result);
@@ -88,7 +87,7 @@
 
         get("load").addEventListener("click", function() {
             $.get(
-                "https://djspotbot.localtunnel.me/admin/" + get("router_id").value,
+                "https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/preferences',
                 function(result) {
                     if (result.preferences) {
                         preferences = result.preferences;
