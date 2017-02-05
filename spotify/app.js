@@ -178,33 +178,33 @@ exports.load = function(
   exports.updatePlaylist = function(accessToken, songs, ownerId, playlist, callback) {
     // First we should get the next 3 songs in the playlist to keep
     console.log("in updatePlaylist");
-    getNext3Songs(accessToken, ownerId, playlist, function(next) {
-      songs = next.concat(songs);
-      songs = songs.map(function(song){
-        return 'spotify:track:'+song;
-      })
-      var authOptions = {
-        url: 'https://api.spotify.com/v1/users/'+ownerId+'/playlists/'+playlist+'/tracks',
-        headers: {
-          'Authorization': 'Bearer ' + accessToken,
-          'Content-Type':'application/json'
-        },
-        body: JSON.stringify({
-          uris:songs
-        }),
-        dataType:'json'
-      };
-      console.log(authOptions);
-      request.put(authOptions, function(error, response, body) {
-        if (!error && (response.statusCode === 201)) {
-          callback(body.id);
-        } else {
-          console.log(response.statusCode);
-          console.log(error);
-          console.log(body);
-        }
-      });
+    //getNext3Songs(accessToken, ownerId, playlist, function(next) {
+    //songs = next.concat(songs);
+    songs = songs.map(function(song){
+      return 'spotify:track:'+song;
+    })
+    var authOptions = {
+      url: 'https://api.spotify.com/v1/users/'+ownerId+'/playlists/'+playlist+'/tracks',
+      headers: {
+        'Authorization': 'Bearer ' + accessToken,
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        uris:songs
+      }),
+      dataType:'json'
+    };
+    console.log(authOptions);
+    request.put(authOptions, function(error, response, body) {
+      if (!error && (response.statusCode === 201)) {
+        callback(body.id);
+      } else {
+        console.log(response.statusCode);
+        console.log(error);
+        console.log(body);
+      }
     });
+    //});
   };
 
   exports.getMyInfo = function(accessToken, callback) {
