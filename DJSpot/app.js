@@ -38,7 +38,7 @@ exports.load = function(
 	app.get('/login', function(req, res) {
 
 	  console.log(req.query);
-    var mac = requ.query.device;
+    var mac = req.query.device;
 
 	  var state = generateRandomString(16);
 	  res.cookie(stateKey, state);
@@ -51,7 +51,8 @@ exports.load = function(
 	      client_id: client_id,
 	      scope: scope,
 	      redirect_uri: redirect_uri,
-	      state: state
+	      state: state,
+        mac: mac
 	    }));
 	});
 
