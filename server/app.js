@@ -22,6 +22,7 @@ exports.load = function(
       console.log("HELLO MY FRIENDS");
       spotify.refreshPartyToken(ownerId,refreshToken,function(accessToken) {
 		exports.updateUserAccessToken(ownerId, accessToken);
+	    exports.compileGenreList(ownerId);
 	  });
     };
 	//updates the list of users on a router
@@ -54,16 +55,6 @@ exports.load = function(
 			    		console.log(spotify.refreshPartyToken);
 			    		console.log("A:" + spotify.isLoaded);
 			    		myFunc(owner_mac,refreshToken);
-			    		/*spotify.refreshPartyToken(
-			    			ownerId,
-			    			refreshToken,
-			    			function(accessToken) {
-			    				exports.updateUserAccessToken(owner_mac, accessToken);
-			    				// Now update the spotify playlist
-			    			}
-			    		);*/
-			    		console.log("B");
-			    		exports.compileGenreList(owner_mac);
 			    	});
 			    });
 			});
