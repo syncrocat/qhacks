@@ -18,15 +18,15 @@ exports.load = function(
 	        database = db;
 	    }
 	});
-    var myFunc = function(ownerId,refreshToken) {
-      console.log("HELLO MY FRIENDS");
-      spotify.refreshPartyToken(ownerId,refreshToken,function(accessToken) {
-      	console.log(exports);
-      	console.log(this.exports);
-		this.exports.updateUserAccessToken(ownerId, accessToken);
-	    this.exports.compileGenreList(ownerId);
-	  }.bind(this));
-    };
+    // var myFunc = function(ownerId,refreshToken) {
+    //   console.log("HELLO MY FRIENDS");
+    //   spotify.refreshPartyToken(ownerId,refreshToken,function(accessToken) {
+    //   	console.log(exports);
+    //   	console.log(this.exports);
+		// this.exports.updateUserAccessToken(ownerId, accessToken);
+	  //   this.exports.compileGenreList(ownerId);
+	  // }.bind(this));
+    // };
 	//updates the list of users on a router
 	app.post("/routers/:id/users",function(request, response){
 	    var id = request.params.id;
@@ -57,7 +57,7 @@ exports.load = function(
 			    		console.log(spotify.refreshPartyToken);
 			    		console.log("A:" + spotify.isLoaded);
 			    		console.log("about to send " + owner_mac + " and " + refreshToken);
-              spotify.refreshPartyToken(owner_mac, refreshToken, function(accessToken) {
+              spotify.refreshPartyToken(refreshToken, function(accessToken) {
                 console.log("and we got back the access token");
                 console.log(accessToken);
               });

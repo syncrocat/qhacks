@@ -14,14 +14,14 @@ exports.load = function(
 
   // Assumes ownerId and refreshId are associated with a routerId
   // Assumes you can update the accessToken associated with a router owner
-  exports.refreshPartyToken = function(ownerId, refreshId, callback) {
-        console.log('FOOOOOOOOOOBBBAAARR');
+  exports.refreshPartyToken = function(refreshId, callback) {
+    console.log('FOOOOOOOOOOBBBAAARR');
     var authOptions = {
 	    url: 'https://accounts.spotify.com/api/token',
 	    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
 	    form: {
 	      grant_type: 'refresh_token',
-	      refresh_token: refresh_token
+	      refresh_token: refreshId
 	    },
 	    json: true
 	  };
