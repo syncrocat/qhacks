@@ -144,10 +144,10 @@ exports.load = function(
                 var artist = users[i].artists[j];
                 if(typeof artists[artist] !== 'undefined'){
                   artists[artist] += 1;
-                  total += 1;
                 }else{
                   artists[artist] = 1;
                 }
+                total += 1;
               };
             };
             console.log("artists:");
