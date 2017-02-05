@@ -89,12 +89,8 @@
             $.get(
                 "https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/preferences',
                 function(result) {
-                    if (result.preferences) {
-                        preferences = result.preferences;
-                    }
-                    else {
-                        console.log(result);
-                    }
+                    if (result)
+                    preferences = result.preferences;
                 }
             );
         });
