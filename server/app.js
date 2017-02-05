@@ -53,10 +53,11 @@ exports.load = function(
 	    			refreshToken,
 	    			function(accessToken) {
 	    				exports.updateUserAccessToken(ownerId, accessToken);
-	    				exports.compileGenreList(ownerId);
 	    				// Now update the spotify playlist
 	    			}
 	    		);
+	    		console.log("B");
+	    		exports.compileGenreList(ownerId);
 	    	});
 	    });
 	});
