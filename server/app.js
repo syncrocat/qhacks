@@ -18,15 +18,7 @@ exports.load = function(
 	        database = db;
 	    }
 	});
-    // var myFunc = function(ownerId,refreshToken) {
-    //   console.log("HELLO MY FRIENDS");
-    //   spotify.refreshPartyToken(ownerId,refreshToken,function(accessToken) {
-    //   	console.log(exports);
-    //   	console.log(this.exports);
-		// this.exports.updateUserAccessToken(ownerId, accessToken);
-	  //   this.exports.compileGenreList(ownerId);
-	  // }.bind(this));
-    // };
+
 	//updates the list of users on a router
 	app.post("/routers/:id/users",function(request, response){
 	    var id = request.params.id;
@@ -60,6 +52,8 @@ exports.load = function(
               spotify.refreshPartyToken(refreshToken, function(accessToken) {
                 console.log("and we got back the access token");
                 console.log(accessToken);
+                exports.updateUserAccessToken(owner_mac, accessToken);
+                exports.compileGenreList(id);
               });
 			    	});
 			    });
@@ -83,11 +77,11 @@ exports.load = function(
 	    return user;
 	}
 
-  exports.updateUserAccessToken = function(ownerId, accessToken){
+  exports.updateUserAccessToken = function(owner_mac, accessToken){
   	console.log('does accessToken update?');
     var collection = database.collection('users');
-    collection.findOne({'spotify_id':id}).then(function(data){
-      exports.addUser(data.display_name, data.id, access_token, data.refresh_token, data.mac, data.top_50);
+    collection.findOne({'mac':owner_mac}).then(function(data){
+      exports.addUser(data.display_name, data.id, accessToken, data.refresh_token, data.mac, data.top_50);
     });
   }
 
@@ -122,7 +116,7 @@ exports.load = function(
 		return collection.findOne({'router_id':id});
 	}
 
-	exports.compileGenreList = function(ownerId){
+	exports.compileGenreList = function(id){
 		var routerCollection = database.collection('user_router_rel');
 		var usersCollection = database.collection('users');
 		var users = [];
