@@ -46,12 +46,17 @@ exports.load = function(
 	    		var accessToken = data.access_token;
 	    		var refreshToken = data.refresh_token;
 	    		console.log("accessToken:"+accessToken);
-	    		console.log(spotify);
-	    		spotify.refreshPartyToken(ownerId, refreshToken, function(accessToken) {
-	    			exports.updateUserAccessToken(ownerId, accessToken);
-	    			exports.compileGenreList(ownerId);
-	    			// Now update the spotify playlist
-	    		});
+	    		console.log(spotify.refreshPartyToken);
+	    		console.log(spotify.isLoaded);
+	    		spotify.refreshPartyToken(
+	    			ownerId,
+	    			refreshToken,
+	    			function(accessToken) {
+	    				exports.updateUserAccessToken(ownerId, accessToken);
+	    				exports.compileGenreList(ownerId);
+	    				// Now update the spotify playlist
+	    			}
+	    		);
 	    	});
 	    });
 	});

@@ -1,3 +1,4 @@
+exports.isLoaded = false;
 exports.load = function(
     app,
     bodyParser,
@@ -178,4 +179,5 @@ exports.load = function(
 
 	// Get recommendations based on seeds
 	// /v1/recommendations
+  exports.isLoaded = true;
 };
