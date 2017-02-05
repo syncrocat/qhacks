@@ -117,12 +117,18 @@ exports.load = function(
             //     chosen.push(genre.name)
             //   }
             // });
+            
+
+            /*
+
             var genres = "anime,bluegrass,chill,club,comedy";
             var attributes = {"danceability": 0.8};
             spotify.get20Seeded(access_token, genres, attributes, function(songs) {
               console.log("The next 20 recommended songs are: ");
               console.log(songs);
             });
+
+            */
   	        // we can also pass the token to the browser to make requests from there
   	        res.redirect('/goodJob');
           });

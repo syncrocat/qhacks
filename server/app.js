@@ -134,7 +134,8 @@ exports.load = function(
 				queue.push({mac: mac}, function() {
 					console.log("length:" + users.length);
 					if (users.length == router.mac_array.length && users.length > 0) {
-						console.log("WE DID IT!");
+            console.log("WE DID IT!");
+            console.log(users);
             //this works start
             var genres = {};
             //for each users combine
@@ -150,6 +151,7 @@ exports.load = function(
                 }
               });
             }
+            console.log("genres:");
             console.log(genres);
             //rnd weighted 5
             //send 5
