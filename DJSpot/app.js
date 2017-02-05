@@ -39,7 +39,7 @@ exports.load = function(
 
 	  console.log(req.query);
     var mac = req.query.device;
-    res.cookie(macKey, mac);
+    res.cookie("mac", mac);
 
 	  var state = generateRandomString(16);
 	  res.cookie(stateKey, state);
@@ -65,7 +65,7 @@ exports.load = function(
 
 	  var code = req.query.code || null;
 	  var state = req.query.state || null;
-    var mac = req.cookies ? req.cookies['macKey'] : null;
+    var mac = req.cookies ? req.cookies['mac'] : null;
     console.log("The mac I found was ");
     console.log(mac);
 	  //var storedState = req.cookies ? req.cookies[stateKey] : null;
