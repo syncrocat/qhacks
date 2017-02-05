@@ -38,11 +38,14 @@ exports.load = function(
 		var user_router_rel_collection = database.collection('user_router_rel');
 		user_router_rel_collection.remove({'router_id':id});
 		user_router_rel_collection.insertOne({'router_id':id, 'mac_array':macAddresses});
+		console.log("id:"+id);
 	    var router = exports.getRouterByID(id).then(function(data) {
-	    	var ownerId = data.owner_spotify_id;
-	    	exports.getUserByID(ownerId).then(function(data) {
+	    	var owner_mac = data.owner_mac;
+	    	console.log("ownerId:"+owner_mac);
+	    	exports.getUserByMAC(owner_mac).then(function(data) {
 	    		var accessToken = data.access_token;
 	    		var refreshToken = data.refresh_token;
+	    		console.log("accessToken:"+accessToken);
 	    		spotify.refreshPartyTokenfunction(ownerId, refreshToken, function(accessToken) {
 	    			exports.updateUserAccessToken(ownerId, accessToken);
 	    			exports.compileGenreList(ownerId);

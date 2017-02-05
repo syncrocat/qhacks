@@ -94,8 +94,6 @@ exports.load = function(
     var genres = {};
     request.get(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
-        console.log("The body:");
-        console.log(body);
         body.artists.forEach(function(e) {
           e.genres.forEach(function(f) {
             if (f in genres) {
