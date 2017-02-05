@@ -13,7 +13,6 @@ exports.load = function(
   var client_id = '294422f175f2404ca3be4840769aea24'; // Your client id
 	var client_secret = config.clientSecret;
 	var redirect_uri = 'https://djspotbot.localtunnel.me/callback'; // Your redirect uri
-  var partyToken = '';
 
 	/**
 	 * Generates a random string containing numbers and letters
@@ -39,19 +38,23 @@ exports.load = function(
 	app.get('/login', function(req, res) {
 
 	  console.log(req.query);
+    var mac = req.query.device;
+    res.cookie("mac", mac);
 
 	  var state = generateRandomString(16);
 	  res.cookie(stateKey, state);
 
+
 	  // your application requests authorization
-	  var scope = 'user-read-private user-read-email user-top-read';
+	  var scope = 'user-read-private user-read-email user-top-read playlist-modify-public playlist-modify-private';
 	  res.redirect('https://accounts.spotify.com/authorize?' +
 	    querystring.stringify({
 	      response_type: 'code',
 	      client_id: client_id,
 	      scope: scope,
 	      redirect_uri: redirect_uri,
-	      state: state
+	      state: state,
+        mac: mac
 	    }));
 	});
 
@@ -62,6 +65,9 @@ exports.load = function(
 
 	  var code = req.query.code || null;
 	  var state = req.query.state || null;
+    var mac = req.cookies ? req.cookies['mac'] : null;
+    console.log("The mac I found was ");
+    console.log(mac);
 	  //var storedState = req.cookies ? req.cookies[stateKey] : null;
 
 	  if (state === null /*|| state !== storedState*/) {
@@ -90,18 +96,17 @@ exports.load = function(
 	        var access_token = body.access_token,
 	            refresh_token = body.refresh_token;
           partyToken = body.refresh_token;
-	        var options = {
-	          url: 'https://api.spotify.com/v1/me',
-	          headers: { 'Authorization': 'Bearer ' + access_token },
-	          json: true
-	        };
-
-          spotify.userTopSongs(access_token, function(top_50) {
-            server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+          spotify.getMyInfo(access_token, function(display_name, id) {
+            console.log("Access Token");
+            console.log(access_token);
+            console.log("User ID");
+            console.log(id);
+            spotify.userTopSongs(access_token, function(top_50) {
+              server.addUser(display_name, id, access_token, refresh_token, mac, top_50);
+            });
+  	        // we can also pass the token to the browser to make requests from there
+  	        res.redirect('/goodJob');
           });
-
-	        // we can also pass the token to the browser to make requests from there
-	        res.redirect('/goodJob');
 	      } else {
 	        res.redirect('/badJob');
 	      }
@@ -109,11 +114,35 @@ exports.load = function(
 	  }
 	});
 
-	app.get('/refresh', function(req, res) {
+	// app.get('/refresh', function(req, res) {
+  //
+	//   // requesting access token from refresh token
+	//   var refresh_token = partyToken;
+	//   var authOptions = {
+	//     url: 'https://accounts.spotify.com/api/token',
+	//     headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+	//     form: {
+	//       grant_type: 'refresh_token',
+	//       refresh_token: refresh_token
+	//     },
+	//     json: true
+	//   };
+  //
+	//   request.post(authOptions, function(error, response, body) {
+	//     if (!error && response.statusCode === 200) {
+	//       var access_token = body.access_token;
+	//       res.send({
+	//         'access_token': access_token
+	//       });
+	//     }
+	//   });
+	// });
 
-	  // requesting access token from refresh token
-	  var refresh_token = partyToken;
-	  var authOptions = {
+
+  // Assumes ownerId and refreshId are associated with a routerId
+  // Assumes you can update the accessToken associated with a router owner
+  var refreshPartyToken = function(ownerId, refreshId, callback) {
+    var authOptions = {
 	    url: 'https://accounts.spotify.com/api/token',
 	    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
 	    form: {
@@ -126,20 +155,31 @@ exports.load = function(
 	  request.post(authOptions, function(error, response, body) {
 	    if (!error && response.statusCode === 200) {
 	      var access_token = body.access_token;
-	      res.send({
-	        'access_token': access_token
-	      });
+	      callback(access_token);
 	    }
 	  });
-	});
+  };
 
   app.get('/add_song/:userid/:playlistid/:songs', function(req, res) {
-
-
+    // Should be a comma-separated list of songs
     console.log("Here's what I got:");
     console.log(req.params.userid);
     console.log(req.params.playlistid);
     console.log(req.params.songs);
+    var userId = req.params.userid;
+    var playlistId = req.params.playlistid;
+    var songs = req.params.songs;
+    var accessToken = ''; // TODO make it a promise
+    var authOptions = {
+      url: 'https://api.spotify.com/v1/users/' + userId + '/playlists/' + playlistId + '/tracks',
+      headers: {
+        'Authorization': 'Bearer ' + accessToken,
+        'Content-Type': 'application/json'
+      },
+      form: {
+        uris: songs
+      }
+    };
     res.send("Adding the song");
   });
 };

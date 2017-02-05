@@ -51,8 +51,6 @@ exports.load = function(
 
                 pageEntry.messaging.forEach(function(messagingEvent) {
                     if (messagingEvent.message) {
-                        console.log(messagingEvent);
-
                         var message = messagingEvent.message.text.toLowerCase();
                         var user = (users[messagingEvent.sender.id] = users[messagingEvent.sender.id] || {
                             state: {
@@ -65,6 +63,11 @@ exports.load = function(
 
                         user.messages.push(message);
 
+                        /**
+                         * TODO
+                         * - Current song
+                         * - What song is next
+                         */
                         switch (user.state.type) {
                             case states.ACCEPT_PARAM:
                                 if (user.state.data == "play") {
@@ -80,10 +83,31 @@ exports.load = function(
 
                                 break;
                             case states.ACCEPT_COMMAND:
-                                if (/play/.test(message)) {
+                                /**/ if (/play/.test(message)) {
                                     user.state.type = states.ACCEPT_PARAM;
                                     user.state.data = "play";
                                     sendMessage("What song do you want to play?", user.id);
+                                }
+                                else if (/playlist/.test(message)) {
+                                    /**
+                                     * TODO: GET THE CURRENT PLAYLIST
+                                     */
+                                    sendMessage("PLAYLIST TODO", user.id);
+                                }
+                                else if (/up *next/.test(message)) {
+                                    /**
+                                     * TODO: GET THE CURRENT SONG
+                                     */
+                                    sendMessage("CURRENT SONG TODO", user.id);
+                                }
+                                else if (/commands/.test(message) || /help/.test(message)) {
+                                    sendMessage(
+                                        "You can send me any of the following commands:\n" +
+                                        "play - Plays a specific song\n" +
+                                        "playlist - Lists the current playlist\n" +
+                                        "upnext - Shows the coming up song",
+                                        user.id
+                                    );
                                 }
                                 else {
                                     sendMessage("Not sure what you mean by that. To add a song to the playlist type 'play'.", user.id);
