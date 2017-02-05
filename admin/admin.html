@@ -1,0 +1,103 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>DJ Spot - Admin</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="DJ Spot - Router Preferences">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="sliders"></div>
+        <input type="text" id="router_id"></input></br>
+        <input type="button" value="Load" id="load"></input>
+        <input type="button" value="Save" id="save"></input>
+    </body>
+</html>
+<script>
+    (function() {
+        /**
+         * GENERATE AND MANAGE PAGE
+         */
+        var get = function(id) {
+            return document.getElementById(id);
+        };
+
+        var preferences = {
+            acousticness: {
+                value: 0,
+                type: 'float',
+            },
+            danceability: {
+                value: 0,
+                type: 'float',
+            },
+            energy: {
+                value: 0,
+                type: 'float',
+            },
+            liveness: {
+                value: 0,
+                type: 'float',
+            },
+            valence: {
+                value: 0,
+                type: 'float',
+            },
+            popularity: {
+                value: 0,
+                type: 'int',
+            },
+        };
+
+        Object.keys(preferences).map(function(key) {
+            var div = document.createElement("div");
+            get("sliders").appendChild(div);
+
+            var input = document.createElement("input");
+            input.type = "range";
+            input.id = key;
+            input.min = 0;
+            input.max = 100;
+            input.value = preferences[key].value;
+            input.addEventListener("change", function() {
+                var pref = preferences[this.id];
+                var value = this.value;
+
+                if (pref.type == 'float') {
+                    value = value/100;
+                }
+
+                preferences[this.id].value = value;
+            });
+
+            div.appendChild(input);
+        });
+
+        get("save").addEventListener("click", function() {
+            $.post(
+                "https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/preferences',
+                preferences,
+                function(result) {
+                    console.log(result);
+                }
+            );
+        });
+
+        get("load").addEventListener("click", function() {
+            $.get(
+                "https://djspotbot.localtunnel.me/routers/" + get("router_id").value+'/preferences',
+                function(result) {
+                    if (result.preferences) {
+                        preferences = result.preferences;
+                    }
+                    else {
+                        console.log(result);
+                    }
+                }
+            );
+        });
+    })();
+</script>

@@ -21,6 +21,7 @@ exports.load = function(
 
 	//updates the list of users on a router
 	app.post("/routers/:id/users",function(request, response){
+    console.log("pi ping");
 	    var id = request.params.id;
 	    var macAddresses = request.body.addresses;
 
@@ -89,6 +90,16 @@ exports.load = function(
 		return collection.findOne({'router_id':id});
 	}
 
+  exports.addRouterPrefs = function(id, preferences){
+    var collection = database.collection('router_prefs');
+    var pref = {
+      "id":id,
+      "preferences":preferences
+    };
+    collection.remove({'id':id});
+    collection.insertOne(pref);
+  }
+
 	exports.addRouter = function(id, owner_mac, playlist_id, owner_id, attributes){
 		var collection = database.collection('routers');
 		var router = {
@@ -128,22 +139,24 @@ exports.load = function(
   exports.getAttributes = function(router_id){
     return collection.findOne({'router_id':router_id});
   }
-/*
-  app.get("/routers/:id/attributes",function(request, response){
-      collection.findOne({'router_id':router_id}).then(function(data){
-        response.send(JSON.stringify(data.attributes));
-      });
-  });
 
-  app.post("/routers/:id/attributes",function(request, response){
-    var attributes = request.body.attributes;
+  app.get("/routers/:id/preferences",function(request, response){
     var id = request.params.id;
-    var collection = database.collection('routers');
-    collection.findOne({'router_id':id}).then(function(router){
-      exports.addRouter(router.router_id, router.owner_mac, router.playlist_id, router.owner_id, attributes);
+    var collection = database.collection('router_prefs');
+    collection.findOne({'id':id}).then(function(data){
+      response.send(JSON.stringify(data.preferences));
     });
   });
-*/
+
+  app.post("/routers/:id/preferences",function(request, response){
+    var preferences = request.body.preferences;
+    var id = request.params.id;
+    var collection = database.collection('router_prefs');
+    collection.findOne({'id':id}).then(function(router){
+      exports.addRouterPrefs(router.id, preferences);
+    });
+  });
+
 	exports.getRouterUserListByID = function(id){
 		var collection = database.collection('user_router_rel');
 		return collection.findOne({'router_id':id});
