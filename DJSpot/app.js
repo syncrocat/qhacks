@@ -53,13 +53,11 @@ exports.load = function(
 	      client_id: client_id,
 	      scope: scope,
 	      redirect_uri: redirect_uri,
-	      state: state,
-        mac: mac
+	      state: state
 	    }));
 	});
 
 	app.get('/callback', function(req, res) {
-
 	  // your application requests refresh and access tokens
 	  // after checking the state parameter
 
@@ -137,28 +135,6 @@ exports.load = function(
 	//     }
 	//   });
 	// });
-
-
-  // Assumes ownerId and refreshId are associated with a routerId
-  // Assumes you can update the accessToken associated with a router owner
-  var refreshPartyToken = function(ownerId, refreshId, callback) {
-    var authOptions = {
-	    url: 'https://accounts.spotify.com/api/token',
-	    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
-	    form: {
-	      grant_type: 'refresh_token',
-	      refresh_token: refresh_token
-	    },
-	    json: true
-	  };
-
-	  request.post(authOptions, function(error, response, body) {
-	    if (!error && response.statusCode === 200) {
-	      var access_token = body.access_token;
-	      callback(access_token);
-	    }
-	  });
-  };
 
   app.get('/add_song/:userid/:playlistid/:songs', function(req, res) {
     // Should be a comma-separated list of songs

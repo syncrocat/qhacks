@@ -46,19 +46,6 @@ fbbot.load(
     require('localtunnel')
 );
 
-/**
- * Server
- */
-// Loads REST api
-var server = require('./server/app.js');
-server.load(
-    app,
-    bodyParser,
-    express,
-    https,
-    mongodb,
-    request
-);
 
 /*
  * Spotify
@@ -76,8 +63,22 @@ spotify.load(
     mongodb,
     config,
     SpotifyWebApi,
+    request
+);
+
+/**
+ * Server
+ */
+// Loads REST api
+var server = require('./server/app.js');
+server.load(
+    app,
+    bodyParser,
+    express,
+    https,
+    mongodb,
     request,
-    server
+    spotify
 );
 
 /*

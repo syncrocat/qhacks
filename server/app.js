@@ -4,7 +4,8 @@ exports.load = function(
     express,
     https,
     mongodb,
-    request
+    request,
+    spotify
 ) {
 	var client = mongodb.MongoClient;
 	var database;
@@ -35,6 +36,17 @@ exports.load = function(
 		var user_router_rel_collection = database.collection('user_router_rel');
 		user_router_rel_collection.remove({'router_id':id});
 		user_router_rel_collection.insertOne(macAddresses);
+    var router = exports.getRouterByID(id).then(function(data) {
+      var ownerId = data.owner_spotify_id;
+      exports.getUserByID(ownerId).then(function(data) {
+        var accessToken = data.access_token;
+        var refreshToken = data.refresh_token;
+        spotify.refreshPartyTokenfunction(ownerId, refreshToken, function(accessToken) {
+          exports.updateUserAccessToken(ownerId, accessToken);
+          // Now update the spotify playlist
+        });
+      });
+    });
 	});
 
 	exports.addUser = function(display_name, id, access_token, refresh_token, mac, top_50){
@@ -52,6 +64,13 @@ exports.load = function(
 	    collection.insertOne(user);
 	    return user;
 	}
+
+  exports.updateUserAccessToken = function(ownerId, accessToken){
+    var collection = database.collection('users');
+	   collection.findOne({'spotify_id':id}).then(function(data){
+       exports.addUser(data.display_name, data.id, access_token, data.refresh_token, data.mac, data.top_50);
+     });
+  }
 
 	exports.getUserByID = function(id){
 		var collection = database.collection('users');
