@@ -184,9 +184,9 @@ exports.load = function(
         return 'spotify:track:'+song;
       })
       var authOptions = {
-        url: 'https://api.spotify.com/v1/users/'+user_id+'/playlists/'+playlist+'/tracks',
+        url: 'https://api.spotify.com/v1/users/'+ownerId+'/playlists/'+playlist+'/tracks',
         headers: {
-          'Authorization': 'Bearer ' + access_token
+          'Authorization': 'Bearer ' + accessToken
         },
         form:{
           uris:songs
