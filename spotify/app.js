@@ -120,6 +120,68 @@ exports.load = function(
     });
   };
 
+  exports.get20Seeded = function(accessToken, genres, attributes, callback) {
+    // attributes should be a dictionary containing values for each of
+    // the tunable track attributes we care about
+
+    var authOptions = {
+      url: 'https://api.spotify.com/v1/recommendations?seed_genres=' + genres,
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      },
+      form: {
+        danceability: attributes.danceability
+      },
+      json: true
+    };
+
+    var songs = [];
+    request.get(authOptions, function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+        console.log("Our 20Seeded body");
+        console.log(body);
+        body.tracks.forEach(function(e) {
+          songs.push(e.id);
+        });
+        callback(songs);
+      } else {
+        console.log(response.statusCode);
+        console.log(error);
+      }
+    });
+  };
+
+  var getNext3Songs = function(accessToken, ownerId, playlist, callback) {
+    var authOptions = {
+      url: 'https://api.spotify.com/v1/users/' + ownerId + '/playlists/' + playlist + '/tracks?limit=3',
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      }
+    };
+    var next = [];
+    request.get(authOptions, function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+        console.log("Our next 3 songs body");
+        console.log(body);
+        body.items.forEach(function(e) {
+          next.push(e.track.id);
+        });
+        callback(next);
+      } else {
+        console.log(response.statusCode);
+        console.log(error);
+      }
+    });
+  };
+
+  exports.updatePlaylist = function(accessToken, songs, ownerId, playlist, callback) {
+    // First we should get the next 3 songs in the playlist to keep
+    getNext3Songs(accessToken, ownerId, playlist, function(next) {
+      songs = next.concat(songs);
+
+    });
+  };
+
   exports.getMyInfo = function(accessToken, callback) {
     var authOptions = {
       url: 'https://api.spotify.com/v1/me',

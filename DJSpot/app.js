@@ -103,6 +103,25 @@ exports.load = function(
             });
             spotify.getUserGenres(access_token, function(genres) {
             });
+            // // genres should be an array of genres paired with and sorted by weight
+            // // genres = [{name: "pop", weight: 0.54}, ...]
+            // // the total weights should equal 1
+            // // we probably don't have to clean it for bad genres
+            // // because we get them from spotify
+            // // select 5 random (weighted) genres
+            // var number = Math.random(); // 0...1
+            // var chosen = [];
+            // genres.forEach(function(genre) {
+            //   if (genre.weight < number) {
+            //     chosen.push(genre.name)
+            //   }
+            // });
+            var genres = "anime,bluegrass,chill,club,comedy";
+            var attributes = {"danceability": 0.8};
+            spotify.get20Seeded(access_token, genres, attributes, function(songs) {
+              console.log("The next 20 recommended songs are: ");
+              console.log(songs);
+            });
   	        // we can also pass the token to the browser to make requests from there
   	        res.redirect('/goodJob');
           });
