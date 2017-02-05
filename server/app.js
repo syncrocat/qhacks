@@ -99,6 +99,7 @@ exports.load = function(
 		var routerCollection = database.collection('user_router_rel');
 		var usersCollection = database.collection('users');
 		var users = [];
+		console.log("there");
 		var queue = async.queue(function(task, callback) {
 			usersCollection.findOne({'mac': task.mac}).then(function(user) {
 				users.push(user);
@@ -107,8 +108,10 @@ exports.load = function(
 		});
 
 		routerCollection.findOne({'router_id':id}).then(function(router) {
+			console.log("here");
 			router.mac_array.map(function(mac) {
 				queue.push({mac: mac}, function() {
+					console.log("length:" + users.length);
 					if (users.length == router.mac_array.length) {
 						console.log("WE DID IT!");
 					}
