@@ -161,7 +161,8 @@ exports.load = function(
     request.get(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
         console.log("Our next 3 songs body");
-        console.log(body);
+        body = JSON.parse(body);
+        console.log(body.items);
         body.items.forEach(function(e) {
           next.push(e.track.id);
         });
