@@ -156,6 +156,7 @@ exports.load = function(
         'Authorization': 'Bearer ' + accessToken
       }
     };
+    console.log(authOptions);
     var next = [];
     request.get(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
@@ -168,7 +169,7 @@ exports.load = function(
       } else {
         console.log(response.statusCode);
         console.log(error);
-        console.log(response);
+        console.log(body);
       }
     });
   };
