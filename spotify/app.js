@@ -128,7 +128,12 @@ exports.load = function(
         'Authorization': 'Bearer ' + accessToken
       },
       form: {
-        danceability: attributes.danceability
+        acousticness: attributes.acousticness,
+        danceability: attributes.danceability,
+        energy: attributes.energy,
+        liveness: attributes.liveness,
+        valence: attributes.valence,
+        popularity: attributes.popularity
       },
       json: true
     };

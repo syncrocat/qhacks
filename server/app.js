@@ -89,19 +89,61 @@ exports.load = function(
 		return collection.findOne({'router_id':id});
 	}
 
-	exports.addRouter = function(id, owner_mac, playlist_id, owner_id){
+	exports.addRouter = function(id, owner_mac, playlist_id, owner_id, attributes){
 		var collection = database.collection('routers');
 		var router = {
 			"router_id":id,
 			"owner_mac":owner_mac,
       "playlist_id":playlist_id,
-      "owner_id":owner_id
+      "owner_id":owner_id,
+      "attributes":attributes
 		};
 		collection.remove({'router_id':id});
-	    collection.insertOne(router);
-	    return router;
+	  collection.insertOne(router);
+
+    collection = database.collection('router_prefs');
+    var router_prefs = {
+      "id":id,
+      "preferences":{
+        "acousticness":0.5,
+        "danceability":0.9,
+        "energy":0.7,
+        "liveness":0.2,
+        "valence":0.5,
+        "popularity":0.7
+      }
+    };
+    collection.remove({'id':id});
+    collection.insertOne(router_prefs);
+	 return router;
 	};
 
+  exports.updateAttributes = function(router_id, attributes){
+    var collection = database.collection('routers');
+    collection.findOne({'router_id':router_id}).then(function(router){
+      exports.addRouter(router.router_id, router.owner_mac, router.playlist_id, router.owner_id, attributes);
+    });
+  }
+
+  exports.getAttributes = function(router_id){
+    return collection.findOne({'router_id':router_id});
+  }
+/*
+  app.get("/routers/:id/attributes",function(request, response){
+      collection.findOne({'router_id':router_id}).then(function(data){
+        response.send(JSON.stringify(data.attributes));
+      });
+  });
+
+  app.post("/routers/:id/attributes",function(request, response){
+    var attributes = request.body.attributes;
+    var id = request.params.id;
+    var collection = database.collection('routers');
+    collection.findOne({'router_id':id}).then(function(router){
+      exports.addRouter(router.router_id, router.owner_mac, router.playlist_id, router.owner_id, attributes);
+    });
+  });
+*/
 	exports.getRouterUserListByID = function(id){
 		var collection = database.collection('user_router_rel');
 		return collection.findOne({'router_id':id});
@@ -186,13 +228,16 @@ exports.load = function(
            // console.log(results);
             //send 5
             var joined = results.join();
-            var attributes = {'danceability':0.8};
-            spotify.get20Seeded(accessToken, joined, attributes, function(songIDs){
-              var collection = database.collection('routers');
-              collection.findOne({'router_id':id}).then(function(rout){
-                spotify.updatePlaylist(accessToken, songIDs, rout.owner_id, rout.playlist_id, function(songIDs){
-                  console.log("updated:");
-                })
+            var attributesCollection = database.collection('router_prefs');
+            attributesCollection.findOne({id:id}).then(function(attributeObj){
+              var attributes = attributeObj.preferences;
+              spotify.get20Seeded(accessToken, joined, attributes, function(songIDs){
+                var collection = database.collection('routers');
+                collection.findOne({'router_id':id}).then(function(rout){
+                  spotify.updatePlaylist(accessToken, songIDs, rout.owner_id, rout.playlist_id, function(songIDs){
+                    console.log("updated:");
+                  })
+                });
               });
             });
             //this works end

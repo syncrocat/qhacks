@@ -99,7 +99,6 @@ exports.load = function(
                 server.addUser(display_name, id, access_token, refresh_token, mac, artist);
                 if(router_id.length > 0){
                   spotify.createPlaylist(id,access_token,"DJSPOT",function(playlist_id){
-                    console.log('playlist_id'+playlist_id);
                     server.addRouter(router_id, mac, playlist_id, id);
                   });
                 }
