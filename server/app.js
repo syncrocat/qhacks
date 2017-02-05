@@ -48,14 +48,14 @@ exports.load = function(
 	    		console.log("accessToken:"+accessToken);
 	    		console.log(spotify.refreshPartyToken);
 	    		console.log("A:" + spotify.isLoaded);
-	    		spotify.refreshPartyToken(
+	    		/*spotify.refreshPartyToken(
 	    			ownerId,
 	    			refreshToken,
 	    			function(accessToken) {
 	    				exports.updateUserAccessToken(ownerId, accessToken);
 	    				// Now update the spotify playlist
 	    			}
-	    		);
+	    		);*/
 	    		console.log("B");
 	    		exports.compileGenreList(ownerId);
 	    	});
