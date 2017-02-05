@@ -139,14 +139,14 @@ exports.load = function(
             for (var i = 0; i < users.length; i++) {
               if(users[i]==null)
                 continue;
-              Object.keys(users[i].artists).map(function(key){
-                if(typeof artists[key] !== 'undefined'){
-                  artists[key] += 1;
+              for (var i = 0; i < users[i].artists.length; i++) {
+                if(typeof artists[users[i].artists] !== 'undefined'){
+                  artists[users[i].artists] += 1;
                   total += 1;
                 }else{
-                  artists[key] = 0;
+                  artists[users[i].artists] = 0;
                 }
-              });
+              }
             }
             console.log("artists:");
             console.log(artists);
